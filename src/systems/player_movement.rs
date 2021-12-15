@@ -10,7 +10,6 @@ pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
             if let Ok((mut ball, _)) = ball_query.single_mut() {
                 if ball.sticking_on_paddle {
                     ball.sticking_on_paddle = false;
-                    ball.collision_with_paddle();
                 }
             }
         } else if keyboard_input.pressed(KeyCode::R) {

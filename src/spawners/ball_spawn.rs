@@ -12,7 +12,7 @@ pub fn ball_spawn(windows: ResMut<Windows>, mut commands: Commands, materials: R
         sprite: Sprite::new(Vec2::new(20., 20.)),
         ..Default::default()
     })
-    .insert(Ball { sticking_on_paddle: true })
+    .insert(Ball::default())
     .insert(Position { x: 0., y: ypos })
     .insert(MoveSpeed::new(150.));
 }
