@@ -6,5 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.5.0"
+bevy = { version = "0.5.0", features = ["dynamic"] }
 winapi = "0.3.9"
+
+# Follow the instructions on this site to get information about how to isntall 
+# and configure the bevy project environment: 
+# https://bevyengine.org/learn/book/getting-started/setup/

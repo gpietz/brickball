@@ -45,6 +45,16 @@ impl Default for BallCalculations {
 }
 
 impl BallCalculations {
+    pub fn clear(&mut self) {
+        self.x  = 0.;
+        self.y  = 0.;
+        self.dx = 0.;
+        self.dy = 0.;
+        self.nx = 0.;
+        self.ny = 0.;
+        self.d  = BallDirection::None;
+    }
+
     /// Calculates the new ball position.
     /// * `x` - test
     /// * `y` - hello
