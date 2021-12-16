@@ -2,8 +2,7 @@ use std::borrow::BorrowMut;
 use crate::player_movement;
 use crate::prelude::*;
 
-pub fn ball_movement(ball_calculator: Res<BallCalculations>,
-                     mut ball_query: Query<(&Ball, &mut Transform)>,
+pub fn ball_movement(mut ball_query: Query<(&Ball, &mut Transform)>,
                      mut paddle_query: Query<(&Transform, (With<Paddle>, Without<Ball>))>
 ) {
     if let Ok((ball, mut ball_transform)) = ball_query.single_mut() {
@@ -12,7 +11,10 @@ pub fn ball_movement(ball_calculator: Res<BallCalculations>,
                 ball_transform.translation.x = paddle_transform.translation.x;
                 ball_transform.translation.y = paddle_transform.translation.y + 20.;
             }
+            return;
         }
-        return;
+
+        ball_transform.translation.x += ball.speed;
+        ball_transform.translation.y += ball.speed;
     }
 }

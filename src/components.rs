@@ -1,5 +1,3 @@
-use bevy::ecs::entity::Entities;
-use bevy::ecs::query::ReadOnlyFetch;
 use crate::prelude::*;
 
 pub enum BallDirection {
@@ -9,6 +7,7 @@ pub enum BallDirection {
 //==== Ball ========================================================================================
 
 pub struct Ball {
+    pub speed: f32,
     pub position: Position,
     pub radius: f32,
     pub sticking_on_paddle: bool
@@ -17,6 +16,7 @@ pub struct Ball {
 impl Default for Ball {
     fn default() -> Self {
         Self {
+            speed: 5.,
             position: Position::default(),
             radius: 20.0,
             sticking_on_paddle: true

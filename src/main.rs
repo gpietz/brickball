@@ -27,7 +27,6 @@ enum AppState {
 fn main() {
     App::build()
         .add_plugins(DefaultPlugins)
-        .add_state(AppState::IntroScreen)
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.00)))
         .insert_resource(WindowDescriptor {
             width: 1024.0,
@@ -47,6 +46,5 @@ fn main() {
         .add_system(bevy::input::system::exit_on_esc_system.system())
         .add_system(player_movement.system())
         .add_system(ball_movement.system())
-
         .run();
 }
