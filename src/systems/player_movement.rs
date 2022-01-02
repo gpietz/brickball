@@ -2,47 +2,72 @@ use crate::prelude::*;
 
 pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
     window_size: Res<WindowSize>,
+    mut game_state: ResMut<GameState>,
     mut paddle_query: Query<(&MoveSpeed, &mut Position, &mut Transform, With<Paddle>)>,
     mut ball_query: Query<(&mut Ball, (With<Ball>, Without<Paddle>))>)
 {
     if let Ok((speed, mut position, mut transform, _)) = paddle_query.single_mut() {
-        if keyboard_input.pressed(KeyCode::Space) {
-            if let Ok((mut ball, _)) = ball_query.single_mut() {
+        if let Ok((mut ball, _)) = ball_query.single_mut() {
+            if keyboard_input.pressed(KeyCode::Space) && !game_state.pause {
                 if ball.sticking_on_paddle {
                     ball.sticking_on_paddle = false;
                 }
-            }
-        } else if keyboard_input.pressed(KeyCode::R) {
-            if let Ok((mut ball, _)) = ball_query.single_mut() {
+            } else if keyboard_input.pressed(KeyCode::R) {
+                if keyboard_input.pressed(KeyCode::LShift) {
+                    transform.translation.x = 0.;
+                }
                 if !ball.sticking_on_paddle {
                     ball.sticking_on_paddle = true;
                 }
             }
+
+            if keyboard_input.just_pressed(KeyCode::Plus)
+                || keyboard_input.just_pressed(KeyCode::NumpadAdd) {
+                ball.change_speed(1.);
+            } else if keyboard_input.just_pressed(KeyCode::Minus)
+                || keyboard_input.just_pressed(KeyCode::NumpadSubtract) {
+                ball.change_speed(-1.);
+            }
         }
 
+        // pause state
+        if keyboard_input.just_pressed(KeyCode::P)  {
+            game_state.pause = !game_state.pause;
+            if game_state.pause {
+                println!("*** PAUSE ACTIVATED ***");
+            } else {
+                println!("*** PAUSE DEACTIVATED ***");
+            }
+        };
+
+        // left/right paddle movement
         let dir = if keyboard_input.pressed(KeyCode::Left) {
             -1
         } else if keyboard_input.pressed(KeyCode::Right) {
             1
-        } else {
+        }
+        else {
             return;
         };
 
-        if !is_in_range(&position, dir, window_size.width) {
+        if !is_in_range(&position, dir, window_size.width)
+            || game_state.pause {
             return;
         }
 
         let delta = (dir as f32) * speed.0 * TIME_STEP;
         transform.translation.x += delta;
         position.x += delta;
+
+        println!("T: {} | {}", transform.translation.x, window_size.width);
     }
 }
 
 fn is_in_range(pos: &Position, direction: i32, window_width: f32) -> bool {
     return if direction < 0 {
-        ((pos.x - 100.) - 10.) > -(window_width / 2.)
+        ((pos.x - 100.) - 30.) > -(window_width / 2.)
     }
     else {
-        ((pos.x + 100.) + 10.) < (window_width / 2.)
+        ((pos.x + 100.) + 30.) < (window_width / 2.)
     };
 }

@@ -2,11 +2,12 @@ use bevy::prelude::*;
 use winapi::um::*;
 use crate::spawners::*;
 use crate::resources::*;
-use crate::WindowSize;
+use crate::{DebugText, WindowSize};
 
 const WINDOW_TITLE : &str = "Bevy Test";
 
-pub fn setup(mut commands: Commands,
+pub fn setup(asset_server: Res<AssetServer>,
+             mut commands: Commands,
              mut windows: ResMut<Windows>,
              mut materials: ResMut<Assets<ColorMaterial>>) {
 
@@ -21,10 +22,42 @@ pub fn setup(mut commands: Commands,
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
     commands.spawn_bundle(UiCameraBundle::default());
 
+    // create text for position display
+    commands.spawn_bundle(TextBundle {
+        style: Style {
+            align_self: AlignSelf::FlexEnd,
+            ..Default::default()
+        },
+        text: Text {
+            sections: vec![
+                TextSection {
+                    value: "Pos: ".to_string(),
+                    style: TextStyle {
+                        font: asset_server.load("fonts/FiraMono-Medium.ttf"),
+                        font_size: 12.0,
+                        color: Color::YELLOW
+                    }
+                },
+                TextSection {
+                    value: "".to_string(),
+                    style: TextStyle {
+                        font: asset_server.load("fonts/FiraMono-Medium.ttf"),
+                        font_size: 12.0,
+                        color: Color::YELLOW
+                    }
+                },
+            ],
+            ..Default::default()
+        },
+        ..Default::default()
+    })
+    .insert(DebugText);
+
     // create main resources
     commands.insert_resource(Materials {
         player_material: materials.add(Color::rgb(1., 1., 1.).into()),
         ball_material: materials.add(Color::rgb(0., 1., 0.).into()),
+        wall_material: materials.add( Color::rgb( 0.5, 0.5, 0.5).into())
     });
     commands.insert_resource(WindowSize {
         width: window.width(),

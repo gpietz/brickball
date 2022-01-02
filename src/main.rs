@@ -16,6 +16,7 @@ mod prelude {
 use crate::prelude::*;
 use crate::systems::player_movement;
 use crate::systems::ball_movement;
+use crate::systems::text_update;
 use setup::*;
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
@@ -34,10 +35,15 @@ fn main() {
             ..Default::default()
         })
         .insert_resource(BallCalculations::default())
+        .insert_resource(GameState::default())
         .add_startup_system(setup.system())
         .add_startup_stage(
+            "game_startup_walls",
+            SystemStage::single(walls_spawn.system())
+        )
+        .add_startup_stage(
             "game_startup_player",
-            SystemStage::single(player_spawn.system())
+            SystemStage::single(paddle_spawn.system())
         )
         .add_startup_stage(
             "game_startup_ball",
@@ -46,5 +52,6 @@ fn main() {
         .add_system(bevy::input::system::exit_on_esc_system.system())
         .add_system(player_movement.system())
         .add_system(ball_movement.system())
+        .add_system(text_update.system())
         .run();
 }

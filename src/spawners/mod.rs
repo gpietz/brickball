@@ -1,7 +1,9 @@
-mod player_spawn;
+mod paddle_spawn;
 mod ball_spawn;
-mod brick_spawner;
+mod bricks_spawn;
+mod walls_spawn;
 
-pub use player_spawn::*;
+pub use paddle_spawn::*;
 pub use ball_spawn::*;
-pub use brick_spawner::*;
+pub use bricks_spawn::*;
+pub use walls_spawn::*;

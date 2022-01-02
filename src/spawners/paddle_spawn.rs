@@ -1,7 +1,7 @@
 use crate::prelude::*;
 
 /// Spawn player sprite.
-pub fn player_spawn(windows: ResMut<Windows>, mut commands: Commands, materials: Res<Materials>) {
+pub fn paddle_spawn(windows: ResMut<Windows>, mut commands: Commands, materials: Res<Materials>) {
     let window = windows.get_primary().unwrap();
     let bottom = -window.height() / 2.;
     commands.spawn_bundle(SpriteBundle {
