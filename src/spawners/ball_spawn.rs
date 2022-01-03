@@ -6,7 +6,7 @@ pub fn ball_spawn(windows: ResMut<Windows>, mut commands: Commands, materials: R
     commands.spawn_bundle(SpriteBundle {
         material: materials.ball_material.clone(),
         transform: Transform {
-            translation: Vec3::new(0., ypos , 10.),
+            translation: Vec3::new(0., ypos , 101.),
             ..Default::default()
         },
         sprite: Sprite::new(Vec2::new(20., 20.)),

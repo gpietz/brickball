@@ -19,6 +19,13 @@ pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
                 if !ball.sticking_on_paddle {
                     ball.sticking_on_paddle = true;
                 }
+            } else if keyboard_input.just_pressed(KeyCode::F1) {
+                game_state.direct_ball_movement = !game_state.direct_ball_movement;
+                if game_state.direct_ball_movement {
+                    println!("*** DIRECT BALL ACTIVATED ENABLED ****");
+                } else {
+                    println!("*** DIRECT BALL ACTIVATED DISABLED ****");
+                }
             }
 
             if keyboard_input.just_pressed(KeyCode::Plus)
@@ -41,25 +48,24 @@ pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
         };
 
         // left/right paddle movement
-        let dir = if keyboard_input.pressed(KeyCode::Left) {
-            -1
-        } else if keyboard_input.pressed(KeyCode::Right) {
-            1
+        if !game_state.direct_ball_movement {
+            let dir = if keyboard_input.pressed(KeyCode::Left) {
+                -1
+            } else if keyboard_input.pressed(KeyCode::Right) {
+                1
+            } else {
+                return;
+            };
+
+            if !is_in_range(&position, dir, window_size.width)
+                || game_state.pause {
+                return;
+            }
+
+            let delta = (dir as f32) * speed.0 * TIME_STEP;
+            transform.translation.x += delta;
+            position.x += delta;
         }
-        else {
-            return;
-        };
-
-        if !is_in_range(&position, dir, window_size.width)
-            || game_state.pause {
-            return;
-        }
-
-        let delta = (dir as f32) * speed.0 * TIME_STEP;
-        transform.translation.x += delta;
-        position.x += delta;
-
-        println!("T: {} | {}", transform.translation.x, window_size.width);
     }
 }
 

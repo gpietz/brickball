@@ -34,7 +34,7 @@ pub fn setup(asset_server: Res<AssetServer>,
                     value: "Pos: ".to_string(),
                     style: TextStyle {
                         font: asset_server.load("fonts/FiraMono-Medium.ttf"),
-                        font_size: 12.0,
+                        font_size: 16.0,
                         color: Color::YELLOW
                     }
                 },
@@ -42,7 +42,7 @@ pub fn setup(asset_server: Res<AssetServer>,
                     value: "".to_string(),
                     style: TextStyle {
                         font: asset_server.load("fonts/FiraMono-Medium.ttf"),
-                        font_size: 12.0,
+                        font_size: 16.0,
                         color: Color::YELLOW
                     }
                 },
