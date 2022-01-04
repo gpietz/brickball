@@ -6,6 +6,7 @@ mod components;
 
 mod prelude {
     pub const TIME_STEP: f32 = 1. / 60.;
+    pub const PADDLE_SPEED: f32 = 500.;
 
     pub use bevy::prelude::*;
     pub use crate::spawners::*;
@@ -15,10 +16,6 @@ mod prelude {
 }
 
 use crate::prelude::*;
-use crate::spawners::paddle_spawner::*;
-use crate::spawners::ball_spawner::*;
-use crate::spawners::walls_spawner::*;
-use crate::spawners::bricks_spawner::*;
 use crate::systems::player_movement::*;
 use crate::systems::ball_movement::*;
 use crate::systems::text_update::*;

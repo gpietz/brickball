@@ -62,7 +62,7 @@ pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
                 return;
             }
 
-            let delta = (dir as f32) * 500. * TIME_STEP;
+            let delta = (dir as f32) * PADDLE_SPEED * TIME_STEP;
             transform.translation.x += delta;
         }
     }

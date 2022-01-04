@@ -1,5 +1,4 @@
 use std::borrow::BorrowMut;
-use crate::player_movement;
 use crate::prelude::*;
 
 pub fn ball_movement(game_state: Res<GameState>,
