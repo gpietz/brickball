@@ -13,7 +13,5 @@ pub fn paddle_spawn(windows: ResMut<Windows>, mut commands: Commands, materials:
         sprite: Sprite::new(Vec2::new(200.0, 20.)),
         ..Default::default()
     })
-    .insert(Paddle::default())
-    .insert(Position::default())
-    .insert(MoveSpeed::default());
+    .insert(Paddle::default());
 }

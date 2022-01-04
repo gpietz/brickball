@@ -1,7 +1,6 @@
 use bevy::prelude::*;
 use winapi::um::*;
-use crate::spawners::*;
-use crate::resources::*;
+use crate::prelude::*;
 use crate::{DebugText, WindowSize};
 
 const WINDOW_TITLE : &str = "Bevy Test";

@@ -3,10 +3,10 @@ use crate::prelude::*;
 pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
     window_size: Res<WindowSize>,
     mut game_state: ResMut<GameState>,
-    mut paddle_query: Query<(&MoveSpeed, &mut Position, &mut Transform, With<Paddle>)>,
+    mut paddle_query: Query<(&mut Transform, With<Paddle>)>,
     mut ball_query: Query<(&mut Ball, (With<Ball>, Without<Paddle>))>)
 {
-    if let Ok((speed, mut position, mut transform, _)) = paddle_query.single_mut() {
+    if let Ok((mut transform, _)) = paddle_query.single_mut() {
         if let Ok((mut ball, _)) = ball_query.single_mut() {
             if keyboard_input.pressed(KeyCode::Space) && !game_state.pause {
                 if ball.sticking_on_paddle {
@@ -57,23 +57,22 @@ pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
                 return;
             };
 
-            if !is_in_range(&position, dir, window_size.width)
+            if !is_in_range(&transform, dir, window_size.width)
                 || game_state.pause {
                 return;
             }
 
-            let delta = (dir as f32) * speed.0 * TIME_STEP;
+            let delta = (dir as f32) * 500. * TIME_STEP;
             transform.translation.x += delta;
-            position.x += delta;
         }
     }
 }
 
-fn is_in_range(pos: &Position, direction: i32, window_width: f32) -> bool {
+fn is_in_range(transform: &Transform, direction: i32, window_width: f32) -> bool {
     return if direction < 0 {
-        ((pos.x - 100.) - 30.) > -(window_width / 2.)
+        ((transform.translation.x - 100.) - 30.) > -(window_width / 2.)
     }
     else {
-        ((pos.x + 100.) + 30.) < (window_width / 2.)
+        ((transform.translation.x + 100.) + 30.) < (window_width / 2.)
     };
 }

@@ -1,22 +1,27 @@
 mod setup;
 mod spawners;
-mod resources;
 mod systems;
+mod materials;
 mod components;
 
 mod prelude {
     pub const TIME_STEP: f32 = 1. / 60.;
 
     pub use bevy::prelude::*;
-    pub use crate::resources::*;
     pub use crate::spawners::*;
+    pub use crate::components::*;
+    pub use crate::materials::*;
     pub use crate::components::*;
 }
 
 use crate::prelude::*;
-use crate::systems::player_movement;
-use crate::systems::ball_movement;
-use crate::systems::text_update;
+use crate::spawners::paddle_spawner::*;
+use crate::spawners::ball_spawner::*;
+use crate::spawners::walls_spawner::*;
+use crate::spawners::bricks_spawner::*;
+use crate::systems::player_movement::*;
+use crate::systems::ball_movement::*;
+use crate::systems::text_update::*;
 use setup::*;
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
@@ -34,7 +39,6 @@ fn main() {
             height: 768.0,
             ..Default::default()
         })
-        .insert_resource(BallCalculations::default())
         .insert_resource(GameState::default())
         .add_startup_system(setup.system())
         .add_startup_stage(
