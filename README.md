@@ -19,6 +19,10 @@ I started by display and moving the player paddel. After that I added the ball a
 <td>Toggles between paddle or ball control.</td>
 </tr>
 <tr>
+<td>F2</td>
+<td>Prints the ball and paddle coordinates.</td>
+</tr>
+<tr>
 <td>- / +</td>
 <td>changes the ball speed.</td>
 </tr>
