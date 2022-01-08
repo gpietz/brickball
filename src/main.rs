@@ -19,7 +19,7 @@ use crate::prelude::*;
 use crate::systems::player_movement::*;
 use crate::systems::ball_movement::*;
 use crate::systems::text_update::*;
-use setup::*;
+use crate::setup::*;
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 enum AppState {
