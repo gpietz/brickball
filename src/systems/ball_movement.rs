@@ -9,7 +9,7 @@ pub fn ball_movement(game_state: Res<GameState>,
         print_ball_paddle_coordinates(&mut ball_query, &mut paddle_query);
     }
 
-    if game_state.pause {
+    if game_state.pause && !game_state.direct_ball_movement {
         return;
     }
 
@@ -47,17 +47,18 @@ pub fn ball_movement(game_state: Res<GameState>,
         else {
             let ball_x = ball_transform.translation.x;
             let ball_y = ball_transform.translation.y;
+            let ball_diff = 20. + 10.; // Wall width + half of ball radius
 
-            if ball_y > (window_size.get_top_boundary() - 20.) {
+            if ball_y > (window_size.get_top_boundary() - ball_diff) {
                 ball.velocity.y = -ball.velocity.y;
             }
-            if ball_x > (window_size.get_right_boundary() - 20.) {
+            if ball_x > (window_size.get_right_boundary() - ball_diff) {
                 ball.velocity.x = -ball.velocity.x;
             }
-            if ball_y < (window_size.get_bottom_boundary() - 20.) {
+            if ball_y < (window_size.get_bottom_boundary() - ball_diff) {
                 ball.velocity.y = -ball.velocity.y;
             }
-            if ball_x < (window_size.get_left_boundary() + 20.) {
+            if ball_x < (window_size.get_left_boundary() + ball_diff) {
                 ball.velocity.x = -ball.velocity.x;
             }
 
