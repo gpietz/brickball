@@ -23,16 +23,16 @@ pub fn ball_movement(game_state: Res<GameState>,
             }
             else {
                 if keyboard_input.pressed(KeyCode::Up) {
-                    ball_transform.translation.y += ball.velocity.y;
+                    ball_transform.translation.y += f32::abs(ball.velocity.y);
                 }
                 if keyboard_input.pressed(KeyCode::Down) {
-                    ball_transform.translation.y -= ball.velocity.y;
+                    ball_transform.translation.y -= f32::abs(ball.velocity.y);
                 }
                 if keyboard_input.pressed(KeyCode::Left) {
-                    ball_transform.translation.x -= ball.velocity.x;
+                    ball_transform.translation.x -= f32::abs(ball.velocity.x);
                 }
                 if keyboard_input.pressed(KeyCode::Right) {
-                    ball_transform.translation.x += ball.velocity.x;
+                    ball_transform.translation.x += f32::abs(ball.velocity.x);
                 }
             }
             return;
