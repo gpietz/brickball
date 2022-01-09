@@ -56,12 +56,15 @@ pub fn setup(asset_server: Res<AssetServer>,
     commands.insert_resource(Materials {
         player_material: materials.add(Color::rgb(1., 1., 1.).into()),
         ball_material: materials.add(Color::rgb(0., 1., 0.).into()),
-        wall_material: materials.add( Color::rgb( 0.5, 0.5, 0.5).into())
+        wall_material: materials.add( Color::rgb( 0.5, 0.5, 0.5).into()),
     });
+
     commands.insert_resource(WindowSize {
         width: window.width(),
         height: window.height()
     });
+
+    commands.insert_resource(BrickMaterials::new(materials));
 }
 
 fn center_window(window: &mut Window) {

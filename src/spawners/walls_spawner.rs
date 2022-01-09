@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 const WALL_WIDTH : f32 = 20.;
 
-/// Spawn the walls around the playfield.
+/// Spawn the walls around the play field.
 pub fn walls_spawn(windows: ResMut<Windows>, materials: Res<Materials>, mut commands: Commands) {
     let window = windows.get_primary().unwrap();
     // Top
@@ -16,7 +16,9 @@ pub fn walls_spawn(windows: ResMut<Windows>, materials: Res<Materials>, mut comm
              &mut commands, materials.wall_material.clone());
 }
 
-fn add_wall(x: f32, y: f32, width: f32, height: f32, mut commands: &mut Commands, material: Handle<ColorMaterial>) {
+fn add_wall(x: f32, y: f32, width: f32, height: f32,
+            commands: &mut Commands,
+            material: Handle<ColorMaterial>) {
     commands.spawn_bundle(SpriteBundle {
         material,
         transform: Transform {

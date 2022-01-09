@@ -39,7 +39,7 @@ pub fn ball_movement(game_state: Res<GameState>,
         }
 
         if ball.sticking_on_paddle {
-            if let Ok((paddle_transform, paddle_sprite, _)) = paddle_query.single_mut() {
+            if let Ok((paddle_transform, _, _)) = paddle_query.single_mut() {
                 ball_transform.translation.x = paddle_transform.translation.x;
                 ball_transform.translation.y = paddle_transform.translation.y + 20.;
             }

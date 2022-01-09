@@ -3,6 +3,8 @@ mod spawners;
 mod systems;
 mod materials;
 mod components;
+mod levels;
+mod brick_materials;
 
 mod prelude {
     pub const TIME_STEP: f32 = 1. / 60.;
@@ -13,12 +15,14 @@ mod prelude {
     pub use crate::components::*;
     pub use crate::materials::*;
     pub use crate::components::*;
+    pub use crate::brick_materials::*;
 }
 
 use crate::prelude::*;
 use crate::systems::player_movement::*;
 use crate::systems::ball_movement::*;
 use crate::systems::text_update::*;
+use crate::systems::bricks_spawn::*;
 use crate::setup::*;
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
@@ -51,6 +55,7 @@ fn main() {
             SystemStage::single(ball_spawn.system())
         )
         .add_system(bevy::input::system::exit_on_esc_system.system())
+        .add_system(bricks_spawn.system())
         .add_system(player_movement.system())
         .add_system(ball_movement.system())
         .add_system(text_update.system())
