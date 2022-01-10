@@ -7,9 +7,15 @@ const BRICK_SIZE: [u8; 2] = [38, 25];
 pub fn bricks_spawn(brick_materials : Res<BrickMaterials>,
                     window_size     : Res<WindowSize>,
                     mut game_state  : ResMut<GameState>,
-                    mut commands    : Commands) {
+                    mut commands    : Commands,
+                    brick_query     : Query<(Entity), (With<Brick>)>) {
     if !is_update_required(&game_state) {
         return;
+    }
+
+    // Remove all existing bricks from the play field
+    for brick_entity in brick_query.iter() {
+        commands.entity(brick_entity).despawn();
     }
 
     let next_level = get_next_level(&game_state);
