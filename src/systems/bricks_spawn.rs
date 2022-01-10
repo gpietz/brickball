@@ -53,8 +53,10 @@ fn insert_brick_line(level: u8, line_nr: u8, data: String,
     y_pos = window_size.transform_y(y_pos);
 
     for brick_char in data.chars() {
-        let brick_material = brick_materials.get_material(level, brick_char);
-        add_brick(x_pos, y_pos, brick_material, &mut commands);
+        if brick_char != ' ' {
+            let brick_material = brick_materials.get_material(level, brick_char);
+            add_brick(x_pos, y_pos, brick_material, &mut commands);
+        }
         x_pos += f32::from(BRICK_SIZE[0]) + 2.;
     }
 }
