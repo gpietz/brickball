@@ -39,3 +39,8 @@ I started by display and moving the player paddel. After that I added the ball a
 <td>Exits the game.</td>
 </tr>
 </table>
+
+<p>
+  <br/>
+  <img src="https://github.com/gpietz/brickball/blob/master/docs/screenshots/brickball220111-01.png" />
+</p>
