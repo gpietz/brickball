@@ -19,4 +19,8 @@ impl WindowSize {
     pub fn get_right_boundary(&self) -> f32 {
         self.width / 2.
     }
+
+    pub fn transform_x(&self, value: f32) -> f32 { value - (self.width / 2.) }
+
+    pub fn transform_y(&self, value: f32) -> f32 { value + (self.height / 2.) }
 }

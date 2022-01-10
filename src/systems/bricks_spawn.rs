@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 use crate::prelude::*;
 use crate::levels::*;
 
-const BRICK_SIZE: [u8; 2] = [10, 10];
+const BRICK_SIZE: [u8; 2] = [38, 25];
 
 pub fn bricks_spawn(brick_materials : Res<BrickMaterials>,
                     window_size     : Res<WindowSize>,
@@ -44,21 +44,18 @@ fn insert_brick_line(level: u8, line_nr: u8, data: String,
                      window_size     : &Res<WindowSize>,
                      brick_materials : &Res<BrickMaterials>,
                      mut commands    : &mut Commands) {
-    println!("{} | {}", line_nr, data);
-    let line_nr_f32 = f32::from(line_nr);
-
     // calculate first brick position
-    let mut xpos : f32 = 50.;
-    let mut ypos : f32 = 50. + ((f32::from(BRICK_SIZE[1]) + 5.) * (line_nr_f32 + 1.));
-    xpos -= (window_size.width / 2.);
-    ypos -= (window_size.height / 2.);
+    let mut x_pos: f32 = 55.;
+    let mut y_pos: f32 = -30.;
+    y_pos -= (f32::from(BRICK_SIZE[1]) + 2.) * (f32::from(line_nr) + 1.);
+
+    x_pos = window_size.transform_x(x_pos);
+    y_pos = window_size.transform_y(y_pos);
 
     for brick_char in data.chars() {
-        println!("Char: {}", brick_char);
-        //let brick_material = brick_materials.get_material(level, brick_char);
-        //let brick_material = &brick_materials.first_color;
-        add_brick(xpos, ypos, brick_materials.get_material(level, brick_char).clone(), &mut commands);
-        xpos += f32::from(BRICK_SIZE[0]) + 5.;
+        let brick_material = brick_materials.get_material(level, brick_char);
+        add_brick(x_pos, y_pos, brick_material, &mut commands);
+        x_pos += f32::from(BRICK_SIZE[0]) + 2.;
     }
 }
 

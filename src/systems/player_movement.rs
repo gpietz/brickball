@@ -30,10 +30,18 @@ pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
 
             if keyboard_input.just_pressed(KeyCode::Plus)
                 || keyboard_input.just_pressed(KeyCode::NumpadAdd) {
-                ball.change_speed(1.);
+                    if keyboard_input.pressed(KeyCode::LShift) {
+                        game_state.current_level[0] += 1;
+                    } else {
+                        ball.change_speed(1.);
+                    }
             } else if keyboard_input.just_pressed(KeyCode::Minus)
                 || keyboard_input.just_pressed(KeyCode::NumpadSubtract) {
-                ball.change_speed(-1.);
+                    if keyboard_input.pressed(KeyCode::RShift) {
+                        game_state.current_level[0] -= 0;
+                    } else {
+                        ball.change_speed(-1.);
+                    }
             }
         }
 

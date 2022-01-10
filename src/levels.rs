@@ -1,8 +1,7 @@
 use std::collections::HashMap;
 use std::slice::Iter;
 
-const LEVEL1: [&str; 7] = [
-    "", "",
+const LEVEL1: [&str; 5] = [
     "yyyyyYYYYYyyyyyYYYYYyyyyyYYYYY",
     "pppppPPPPPpppppPPPPPpppppPPPPP",
     "bbbbbBBBBBbbbbbBBBBBbbbbbBBBBB",
