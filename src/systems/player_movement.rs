@@ -38,7 +38,7 @@ pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
             } else if keyboard_input.just_pressed(KeyCode::Minus)
                 || keyboard_input.just_pressed(KeyCode::NumpadSubtract) {
                     if keyboard_input.pressed(KeyCode::LShift) {
-                        game_state.current_level[0] -= 0;
+                        game_state.current_level[0] -= 1;
                     } else {
                         ball.change_speed(-1.);
                     }

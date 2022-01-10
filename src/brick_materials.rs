@@ -48,6 +48,8 @@ impl BrickMaterials {
             1 => &self.pastel_colors,
             2 => &self.arkanoid_colors,
             3 => &self.arkanoid_colors,
+            4 => &self.arkanoid_colors,
+            5 => &self.pastel_colors,
             _ => panic!("Color map not found for level {}!", level)
         }
     }
