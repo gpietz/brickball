@@ -26,8 +26,11 @@ I started by display and moving the player paddel. After that I added the ball a
 <td>- / +</td>
 <td>changes the ball speed.</td>
 </tr>
+tr>
+  <td>Shift & - / +</td>
+  <td>Activated next or previous level.
 <tr>
-<td>Shift+C</td>
+<td>Shift & C</td>
 <td>Centers the ball on the field (only when ball control is activated).</td>
 </tr>
 <tr>
