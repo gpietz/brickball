@@ -1,11 +1,10 @@
-use std::borrow::Borrow;
 use std::collections::HashMap;
-use std::sync::mpsc::channel;
 use bevy::prelude::*;
 
 pub struct BrickMaterials {
     pastel_colors: HashMap<char, Handle<ColorMaterial>>,
     arkanoid_colors: HashMap<char, Handle<ColorMaterial>>,
+    vintage_colors: HashMap<char, Handle<ColorMaterial>>
 }
 
 impl BrickMaterials {
@@ -16,6 +15,7 @@ impl BrickMaterials {
         pastel_colors.insert('b', create_material(&mut materials, [165, 179, 255]));
         pastel_colors.insert('g', create_material(&mut materials, [191, 255, 165]));
         pastel_colors.insert('o', create_material(&mut materials, [255, 203, 165]));
+        pastel_colors.insert('x', create_material(&mut materials, [56, 56, 56]));
         let mut arkanoid_colors = HashMap::new();
         arkanoid_colors.insert('w', create_material(&mut materials, [252, 252, 252]));
         arkanoid_colors.insert('o', create_material(&mut materials, [252, 116, 96]));
@@ -27,9 +27,11 @@ impl BrickMaterials {
         arkanoid_colors.insert('y', create_material(&mut materials, [252, 152, 56]));
         arkanoid_colors.insert('s', create_material(&mut materials, [188, 188, 188]));
         arkanoid_colors.insert('d', create_material(&mut materials, [240, 188, 60]));
+        let vintage_colors = HashMap::new();
         Self {
             pastel_colors,
             arkanoid_colors,
+            vintage_colors
         }
     }
 

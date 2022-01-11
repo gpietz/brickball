@@ -5,6 +5,7 @@ mod materials;
 mod components;
 mod levels;
 mod brick_materials;
+mod rectangle;
 
 mod prelude {
     pub const TIME_STEP: f32 = 1. / 60.;

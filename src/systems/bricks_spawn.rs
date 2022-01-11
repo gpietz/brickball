@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 use crate::prelude::*;
 use crate::levels::*;
 
-const BRICK_SIZE: [u8; 2] = [38, 25];
+pub const BRICK_SIZE: [u8; 2] = [38, 25];
 
 pub fn bricks_spawn(brick_materials : Res<BrickMaterials>,
                     window_size     : Res<WindowSize>,
@@ -61,7 +61,8 @@ fn insert_brick_line(level: u8, line_nr: u8, data: String,
     for brick_char in data.chars() {
         if brick_char != ' ' {
             let brick_material = brick_materials.get_material(level, brick_char);
-            add_brick(x_pos, y_pos, brick_material, &mut commands);
+            let hits_required = if brick_char.is_ascii_uppercase() { 2 } else { 1 };
+            add_brick(x_pos, y_pos, brick_material, &mut commands, hits_required);
         }
         x_pos += f32::from(BRICK_SIZE[0]) + 2.;
     }
@@ -69,7 +70,8 @@ fn insert_brick_line(level: u8, line_nr: u8, data: String,
 
 fn add_brick(x: f32, y: f32,
              material: Handle<ColorMaterial>,
-             mut commands: &mut Commands) {
+             mut commands: &mut Commands,
+             hits_required: u8) {
     let width  = f32::from(BRICK_SIZE[0]);
     let height = f32::from(BRICK_SIZE[1]);
     commands.spawn_bundle(SpriteBundle {
@@ -82,5 +84,8 @@ fn add_brick(x: f32, y: f32,
         ..Default::default()
     })
     .insert(Collider::Brick)
-    .insert(Brick::default());
+    .insert(Brick {
+        hits_required,
+        ..Default::default()
+    });
 }

@@ -7,7 +7,7 @@ const LEVEL1: [&str; 6] = [
     "bbbbbBBBBBbbbbbBBBBBbbbbbBBBBB",
     "gggggGGGGGgggggGGGGGgggggGGGGG",
     "oooooOOOOOoooooOOOOOoooooOOOOO",
-    "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ];
 
 const LEVEL2: [&str; 16] = [
