@@ -4,7 +4,9 @@ use bevy::prelude::*;
 pub struct BrickMaterials {
     pastel_colors: HashMap<char, Handle<ColorMaterial>>,
     arkanoid_colors: HashMap<char, Handle<ColorMaterial>>,
-    vintage_colors: HashMap<char, Handle<ColorMaterial>>
+    vintage_colors: HashMap<char, Handle<ColorMaterial>>,
+    level9_colors: HashMap<char, Handle<ColorMaterial>>,
+    level10_colors: HashMap<char, Handle<ColorMaterial>>,
 }
 
 impl BrickMaterials {
@@ -27,11 +29,37 @@ impl BrickMaterials {
         arkanoid_colors.insert('y', create_material(&mut materials, [252, 152, 56]));
         arkanoid_colors.insert('s', create_material(&mut materials, [188, 188, 188]));
         arkanoid_colors.insert('d', create_material(&mut materials, [240, 188, 60]));
-        let vintage_colors = HashMap::new();
+        let mut vintage_colors = HashMap::new();
+        vintage_colors.insert('a', create_material(&mut materials, [239, 210, 121]));
+        vintage_colors.insert('b', create_material(&mut materials, [149, 203, 233]));
+        vintage_colors.insert('c', create_material(&mut materials, [2, 71, 105]));
+        vintage_colors.insert('d', create_material(&mut materials, [175, 215, 117]));
+        vintage_colors.insert('e', create_material(&mut materials, [44, 87, 0]));
+        vintage_colors.insert('f', create_material(&mut materials, [222, 157, 127]));
+        vintage_colors.insert('g', create_material(&mut materials, [127, 157, 222]));
+        vintage_colors.insert('h', create_material(&mut materials, [0, 87, 44]));
+        vintage_colors.insert('i', create_material(&mut materials, [117, 215, 175]));
+        vintage_colors.insert('j', create_material(&mut materials, [105, 71, 2]));
+        vintage_colors.insert('k', create_material(&mut materials, [233, 203, 149]));
+        vintage_colors.insert('l', create_material(&mut materials, [121, 210, 239]));
+        let mut level9_colors = HashMap::new();
+        level9_colors.insert('b', create_material(&mut materials, [17, 17, 17]));
+        level9_colors.insert('w', create_material(&mut materials, [238, 238, 238]));
+        level9_colors.insert('c', create_material(&mut materials, [236, 113, 80]));
+        level9_colors.insert('s', create_material(&mut materials, [179, 58, 47]));
+        let mut level10_colors = HashMap::new();
+        level10_colors.insert('r', create_material(&mut materials, [216, 0, 0]));
+        level10_colors.insert('b', create_material(&mut materials, [112, 104, 0]));
+        level10_colors.insert('o', create_material(&mut materials, [248, 171, 0]));
+        level10_colors.insert('f', create_material(&mut materials, [248, 56, 0]));
+        level10_colors.insert('w', create_material(&mut materials, [255, 255, 255]));
+        level10_colors.insert('e', create_material(&mut materials, [255, 224, 168]));
         Self {
             pastel_colors,
             arkanoid_colors,
-            vintage_colors
+            vintage_colors,
+            level9_colors,
+            level10_colors
         }
     }
 
@@ -52,6 +80,11 @@ impl BrickMaterials {
             3 => &self.arkanoid_colors,
             4 => &self.arkanoid_colors,
             5 => &self.pastel_colors,
+            6 => &self.vintage_colors,
+            7 => &self.vintage_colors,
+            8 => &self.pastel_colors,
+            9 => &self.level9_colors,
+            10 => &self.level10_colors,
             _ => panic!("Color map not found for level {}!", level)
         }
     }

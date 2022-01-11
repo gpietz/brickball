@@ -31,14 +31,14 @@ pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
             if keyboard_input.just_pressed(KeyCode::Plus)
                 || keyboard_input.just_pressed(KeyCode::NumpadAdd) {
                     if keyboard_input.pressed(KeyCode::LShift) {
-                        game_state.current_level[0] += 1;
+                        game_state.activate_next_level();
                     } else {
                         ball.change_speed(1.);
                     }
             } else if keyboard_input.just_pressed(KeyCode::Minus)
                 || keyboard_input.just_pressed(KeyCode::NumpadSubtract) {
                     if keyboard_input.pressed(KeyCode::LShift) {
-                        game_state.current_level[0] -= 1;
+                        game_state.activate_previous_level();
                     } else {
                         ball.change_speed(-1.);
                     }

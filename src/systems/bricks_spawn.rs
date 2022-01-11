@@ -31,6 +31,7 @@ pub fn bricks_spawn(brick_materials : Res<BrickMaterials>,
     }
 
     game_state.update_level(next_level);
+    println!("Level activated: {}", next_level);
 }
 
 fn is_update_required(game_state: &ResMut<GameState>) -> bool {
