@@ -94,14 +94,14 @@ pub fn ball_movement(game_state       : Res<GameState>,
                         let mut ball_rect_2 = Rectangle::create_from(&ball_rect);
                         // ball_rect_2.transform(ball.velocity.x, 0.);
                         // if is_brick_collide(&ball_rect_2, &brick_transform) {
-                            ball.velocity.x = -ball.velocity.x;
+                            //ball.velocity.x = -ball.velocity.x;
                         // }
 
-                        ball_rect_2.copy_from(&ball_rect);
-                        ball_rect_2.transform(0., ball.velocity.y);
-                        if is_brick_collide(&ball_rect_2, &brick_transform) {
+                        // ball_rect_2.copy_from(&ball_rect);
+                        // ball_rect_2.transform(0., ball.velocity.y);
+                        // if is_brick_collide(&ball_rect_2, &brick_transform) {
                             ball.velocity.y = -ball.velocity.y;
-                        }
+                        //}
 
                         brick.hits_required -= 1;
                         if brick.hits_required <= 0 {
@@ -137,8 +137,8 @@ fn is_brick_collide(ball_rect: &Rectangle,
     ball_rect.intersects_with(&brick_rect)
 }
 
-fn print_ball_paddle_coordinates(mut ball_query: &mut Query<(&mut Ball, &mut Transform, &mut Sprite, Without<Brick>)>,
-                                 mut paddle_query: &mut Query<(&Transform, &Sprite, (With<Paddle>, Without<Ball>))>) {
+fn print_ball_paddle_coordinates(ball_query: &mut Query<(&mut Ball, &mut Transform, &mut Sprite, Without<Brick>)>,
+                                 paddle_query: &mut Query<(&Transform, &Sprite, (With<Paddle>, Without<Ball>))>) {
     if let Ok((_, ball_transform, _, _)) = ball_query.single_mut() {
         if let Ok((paddle_transform, _, _)) = paddle_query.single_mut() {
             let ball_x : f32 = ball_transform.translation.x;
