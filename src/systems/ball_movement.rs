@@ -1,4 +1,3 @@
-use bevy::render::pipeline::PolygonMode::Point;
 use crate::BRICK_SIZE;
 use crate::prelude::*;
 use crate::rectangle::Rectangle;
@@ -6,9 +5,10 @@ use crate::rectangle::Rectangle;
 pub fn ball_movement(game_state       : Res<GameState>,
                      keyboard_input   : Res<Input<KeyCode>>,
                      window_size      : Res<WindowSize>,
-                     mut ball_query   : Query<(&mut Ball, &mut Transform, &mut Sprite, Without<Brick>)>,
-                     mut paddle_query : Query<(&Transform, &Sprite, (With<Paddle>, Without<Ball>))>,
-                     mut bricks_query : Query<(Entity, &mut Brick, &mut Transform, (With<Brick>, Without<Ball>, Without<Paddle>))>,
+                     levels           : Res<Levels>,
+                     mut ball_query   : Query<(&mut Ball, &mut Transform, &mut Sprite), Without<Brick>>,
+                     mut paddle_query : Query<(&Transform, &Sprite), (With<Paddle>, Without<Ball>)>,
+                     mut bricks_query : Query<(Entity, &mut Sprite, &mut Transform, &mut Brick), (Without<Ball>, Without<Paddle>)>,
                      mut commands     : Commands) {
     if keyboard_input.just_pressed(KeyCode::F2) {
         print_ball_paddle_coordinates(&mut ball_query, &mut paddle_query);
@@ -18,7 +18,7 @@ pub fn ball_movement(game_state       : Res<GameState>,
         return;
     }
 
-    if let Ok((mut ball, mut ball_transform, ball_sprite, _)) = ball_query.single_mut() {
+    if let Ok((mut ball, mut ball_transform, ball_sprite)) = ball_query.get_single_mut() {
         if game_state.direct_ball_movement {
             if keyboard_input.just_pressed(KeyCode::C)
                 && keyboard_input.pressed(KeyCode::LShift) {
@@ -44,7 +44,7 @@ pub fn ball_movement(game_state       : Res<GameState>,
         }
 
         if ball.sticking_on_paddle {
-            if let Ok((paddle_transform, _, _)) = paddle_query.single_mut() {
+            if let Ok((paddle_transform, _)) = paddle_query.get_single_mut() {
                 ball_transform.translation.x = paddle_transform.translation.x;
                 ball_transform.translation.y = paddle_transform.translation.y + 20.;
             }
@@ -75,7 +75,7 @@ pub fn ball_movement(game_state       : Res<GameState>,
 
             // paddle collision
             let mut paddle_collision = false;
-            if let Ok((paddle_transform, paddle_sprite, _)) = paddle_query.single_mut() {
+            if let Ok((paddle_transform, paddle_sprite)) = paddle_query.get_single_mut() {
                 if ball.velocity.y < 0. {
                     if is_paddle_collide(&ball_transform, &ball_sprite,
                                          &paddle_transform, &paddle_sprite) {
@@ -88,7 +88,7 @@ pub fn ball_movement(game_state       : Res<GameState>,
             // brick collision
             if !wall_collision && !paddle_collision {
                 let mut ball_rect = Rectangle::create_from_sprite(&ball_transform, &ball_sprite);
-                for (brick_entity, mut brick, mut brick_transform, _) in bricks_query.iter_mut() {
+                for (brick_entity, mut brick_sprite, mut brick_transform, mut brick) in bricks_query.iter_mut() {
                     if is_brick_collide(&ball_rect, &brick_transform) {
 
                         let mut ball_rect_2 = Rectangle::create_from(&ball_rect);
@@ -106,6 +106,8 @@ pub fn ball_movement(game_state       : Res<GameState>,
                         brick.hits_required -= 1;
                         if brick.hits_required <= 0 {
                             commands.entity(brick_entity).despawn();
+                        } else {
+                            brick_sprite.color = Color::rgb(0.85, 0.85, 0.85);
                         }
                     }
                 }
@@ -121,11 +123,16 @@ fn is_paddle_collide(ball_transform: &Transform,
                      ball_sprite: &Sprite,
                      paddle_transform: &Transform,
                      paddle_sprite: &Sprite) -> bool {
-    let ball_x    = ball_transform.translation.x - (ball_sprite.size.x / 2.);
-    let ball_y    = ball_transform.translation.y;
-    let paddle_x1 = paddle_transform.translation.x - (paddle_sprite.size.x / 2.);
-    let paddle_x2 = paddle_x1 + paddle_sprite.size.x;
-    let paddle_y  = paddle_transform.translation.y + paddle_sprite.size.y;
+    if ball_sprite.custom_size.is_none() || paddle_sprite.custom_size.is_none() {
+        return false;
+    }
+    let ball_size   = ball_sprite.custom_size.unwrap();
+    let paddle_size = paddle_sprite.custom_size.unwrap();
+    let ball_x      = ball_transform.translation.x - (ball_size.x / 2.);
+    let ball_y      = ball_transform.translation.y;
+    let paddle_x1   = paddle_transform.translation.x - (paddle_size.x / 2.);
+    let paddle_x2   = paddle_x1 + paddle_size.x;
+    let paddle_y    = paddle_transform.translation.y + paddle_size.y;
     ball_y <= paddle_y && ball_x >= paddle_x1 && ball_x <= paddle_x2
 }
 
@@ -137,15 +144,13 @@ fn is_brick_collide(ball_rect: &Rectangle,
     ball_rect.intersects_with(&brick_rect)
 }
 
-fn print_ball_paddle_coordinates(ball_query: &mut Query<(&mut Ball, &mut Transform, &mut Sprite, Without<Brick>)>,
-                                 paddle_query: &mut Query<(&Transform, &Sprite, (With<Paddle>, Without<Ball>))>) {
-    if let Ok((_, ball_transform, _, _)) = ball_query.single_mut() {
-        if let Ok((paddle_transform, _, _)) = paddle_query.single_mut() {
-            let ball_x : f32 = ball_transform.translation.x;
-            let ball_y : f32 = ball_transform.translation.y;
-            let paddle_x : f32 = paddle_transform.translation.x;
-            let paddle_y : f32 = paddle_transform.translation.y + 10.;
-            println!("X: {} - {} | Y: {} - {}", ball_x, paddle_x, ball_y, paddle_y);
-        }
-    }
+fn print_ball_paddle_coordinates(ball_query: &mut Query<(&mut Ball, &mut Transform, &mut Sprite), Without<Brick>>,
+                                 paddle_query: &mut Query<(&Transform, &Sprite), (With<Paddle>, Without<Ball>)>) {
+    let (_, ball_transform, _) = ball_query.single_mut();
+    let (paddle_transform, _) = paddle_query.single_mut();
+    let ball_x : f32 = ball_transform.translation.x;
+    let ball_y : f32 = ball_transform.translation.y;
+    let paddle_x : f32 = paddle_transform.translation.x;
+    let paddle_y : f32 = paddle_transform.translation.y + 10.;
+    println!("X: {} - {} | Y: {} - {}", ball_x, paddle_x, ball_y, paddle_y);
 }

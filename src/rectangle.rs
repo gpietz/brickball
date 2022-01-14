@@ -35,10 +35,14 @@ impl Rectangle {
     }
 
     pub fn create_from_sprite(transform: &Transform, sprite: &Sprite) -> Self {
-        let x1 = transform.translation.x - (sprite.size.x / 2.);
-        let y1 = transform.translation.y + (sprite.size.y / 2.);
-        let x2 = transform.translation.x + (sprite.size.x / 2.);
-        let y2 = transform.translation.y - (sprite.size.y / 2.);
+        if sprite.custom_size.is_none() {
+            panic!("The sprite object has no custom size!");
+        }
+        let size = sprite.custom_size.unwrap();
+        let x1 = transform.translation.x - (size.x / 2.);
+        let y1 = transform.translation.y + (size.y / 2.);
+        let x2 = transform.translation.x + (size.x / 2.);
+        let y2 = transform.translation.y - (size.x / 2.);
         Self {
             upper_left: [x1, y1],
             lower_right: [x2, y2]

@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.5.0"
+bevy = "0.6.0"
 winapi = "0.3.9"
 
 # Update 16.12.2021

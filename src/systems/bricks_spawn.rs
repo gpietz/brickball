@@ -4,7 +4,7 @@ use crate::levels::*;
 
 pub const BRICK_SIZE: [u8; 2] = [38, 25];
 
-pub fn bricks_spawn(brick_materials : Res<BrickMaterials>,
+pub fn bricks_spawn(levels          : Res<Levels>,
                     window_size     : Res<WindowSize>,
                     mut game_state  : ResMut<GameState>,
                     mut commands    : Commands,
@@ -19,14 +19,11 @@ pub fn bricks_spawn(brick_materials : Res<BrickMaterials>,
     }
 
     let next_level = get_next_level(&game_state);
-    let level_data = get_level_data(next_level);
-    if level_data.is_none() {
-        panic!("No level data found for level {}!", next_level);
-    }
+    let level_data = levels.get_level_data(next_level);
 
     let mut line_nr = 0;
-    for data in level_data.unwrap() {
-        insert_brick_line(next_level, line_nr, data, &window_size, &brick_materials, &mut commands);
+    for data in level_data {
+        insert_brick_line(next_level, line_nr, data, &window_size, &levels, &mut commands);
         line_nr += 1;
     }
 
@@ -47,10 +44,10 @@ fn get_next_level(game_state: &ResMut<GameState>) -> u8 {
     }
 }
 
-fn insert_brick_line(level: u8, line_nr: u8, data: String,
-                     window_size     : &Res<WindowSize>,
-                     brick_materials : &Res<BrickMaterials>,
-                     mut commands    : &mut Commands) {
+fn insert_brick_line(level: u8, line_nr: u8, data: &String,
+                     window_size  : &Res<WindowSize>,
+                     levels       : &Res<Levels>,
+                     mut commands : &mut Commands) {
     // calculate first brick position
     let mut x_pos: f32 = 55.;
     let mut y_pos: f32 = -30.;
@@ -61,27 +58,29 @@ fn insert_brick_line(level: u8, line_nr: u8, data: String,
 
     for brick_char in data.chars() {
         if brick_char != ' ' {
-            let brick_material = brick_materials.get_material(level, brick_char);
+            let brick_color = levels.get_brick_color(level, brick_char);
             let hits_required = if brick_char.is_ascii_uppercase() { 2 } else { 1 };
-            add_brick(x_pos, y_pos, brick_material, &mut commands, hits_required);
+            add_brick(x_pos, y_pos, brick_color, &mut commands, hits_required);
         }
         x_pos += f32::from(BRICK_SIZE[0]) + 2.;
     }
 }
 
-fn add_brick(x: f32, y: f32,
-             material: Handle<ColorMaterial>,
+fn add_brick(x: f32, y: f32, color: Color,
              mut commands: &mut Commands,
              hits_required: u8) {
     let width  = f32::from(BRICK_SIZE[0]);
     let height = f32::from(BRICK_SIZE[1]);
     commands.spawn_bundle(SpriteBundle {
-        material,
         transform: Transform {
             translation: Vec3::new(x, y, 110.0),
             ..Default::default()
         },
-        sprite: Sprite::new(Vec2::new(width, height)),
+        sprite: Sprite {
+            custom_size: Some(Vec2::new(width, height)),
+            color,
+            ..Default::default()
+        },
         ..Default::default()
     })
     .insert(Collider::Brick)

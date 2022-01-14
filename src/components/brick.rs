@@ -1,5 +1,6 @@
 use crate::prelude::*;
 
+#[derive(Component)]
 pub struct Brick {
     pub hits_required: u8,
 }

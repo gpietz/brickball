@@ -3,11 +3,11 @@ use crate::prelude::*;
 pub fn player_movement(keyboard_input: Res<Input<KeyCode>>,
     window_size: Res<WindowSize>,
     mut game_state: ResMut<GameState>,
-    mut paddle_query: Query<(&mut Transform, With<Paddle>)>,
-    mut ball_query: Query<(&mut Ball, (With<Ball>, Without<Paddle>))>)
-{
-    if let Ok((mut transform, _)) = paddle_query.single_mut() {
-        if let Ok((mut ball, _)) = ball_query.single_mut() {
+    mut paddle_query: Query<&mut Transform, With<Paddle>>,
+    mut ball_query: Query<(&mut Ball, With<Ball>, Without<Paddle>)>) {
+
+    if let Ok(mut transform) = paddle_query.get_single_mut() {
+        if let Ok((mut ball, _, _)) = ball_query.get_single_mut() {
             if keyboard_input.pressed(KeyCode::Space) && !game_state.pause {
                 if ball.sticking_on_paddle {
                     ball.sticking_on_paddle = false;

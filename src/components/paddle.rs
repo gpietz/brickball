@@ -4,6 +4,7 @@ pub enum PaddleMovingDirection {
     None, Left, Right
 }
 
+#[derive(Component)]
 pub struct Paddle {
     pub moving_direction : PaddleMovingDirection
 }

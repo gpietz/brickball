@@ -3,6 +3,12 @@ pub struct WindowSize {
     pub height: f32
 }
 
+impl Default for WindowSize {
+    fn default() -> Self {
+        todo!()
+    }
+}
+
 impl WindowSize {
     pub fn get_top_boundary(&self) -> f32 {
         self.height / 2.

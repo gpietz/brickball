@@ -1,6 +1,6 @@
-use bevy::ecs::query::ReadOnlyFetch;
 use crate::prelude::*;
 
+#[derive(Component)]
 pub struct Ball {
     pub velocity: Vec2,
     pub radius: f32,
