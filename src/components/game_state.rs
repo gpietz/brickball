@@ -1,5 +1,6 @@
 use std::thread::current;
 use crate::levels::MAX_LEVELS;
+use crate::prelude::*;
 
 pub struct GameState {
     /// Flag indicating game is in pause state.
@@ -11,6 +12,26 @@ pub struct GameState {
     /// Actual game level. \
     /// First one is the actual level, second for the brick spawning system.
     pub current_level: [u8; 2],
+
+    /// Flag indicating the ball is stuck to the paddle.
+    pub paddle_owns_ball: bool,
+
+    pub test_circle_active: bool,
+
+    pub game_commands: GameCommandStack,
+}
+
+impl Default for GameState {
+    fn default() -> Self {
+        Self {
+            pause: false,
+            direct_ball_movement: false,
+            current_level: [0, 0],
+            paddle_owns_ball: true,
+            test_circle_active: false,
+            game_commands: GameCommandStack::default()
+        }
+    }
 }
 
 impl GameState {
@@ -36,14 +57,24 @@ impl GameState {
             self.current_level[0] -= 1;
         }
     }
-}
 
-impl Default for GameState {
-    fn default() -> Self {
-        Self {
-            pause: false,
-            direct_ball_movement: false,
-            current_level: [0, 0],
+    pub fn toggle_direct_ball_movement(&mut self) {
+        self.direct_ball_movement = !self.direct_ball_movement;
+        if self.direct_ball_movement {
+            println!("*** DIRECT BALL ACTIVATED ENABLED ****");
+        } else {
+             println!("*** DIRECT BALL ACTIVATED DISABLED ****");
+        }
+    }
+
+    pub fn toggle_test_circle(&mut self) {
+        self.test_circle_active = !self.test_circle_active;
+        if self.test_circle_active {
+            println!("*** TEST CIRCLE ACTIVATED ****");
+        } else {
+            println!("*** TEST CIRCLE DEACTIVATED ****");
         }
     }
 }
+
+

@@ -1,18 +1,14 @@
 use crate::prelude::*;
 
-pub enum PaddleMovingDirection {
-    None, Left, Right
-}
-
 #[derive(Component)]
 pub struct Paddle {
-    pub moving_direction : PaddleMovingDirection
+    pub velocity: f32,
 }
 
 impl Default for Paddle {
     fn default() -> Self {
         Self {
-            moving_direction : PaddleMovingDirection::None
+            velocity: 0.0,
         }
     }
 }
