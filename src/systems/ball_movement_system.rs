@@ -6,14 +6,14 @@ pub fn ball_movement_system(keyboard_input: Res<Input<KeyCode>>,
     windows: Res<Windows>,
     game_state: Res<GameState>,
     mut ev_reader: EventReader<GameCommandEvent>,
-    mut ball_query: Query<(&mut Ball, &mut Transform, &Sprite), Without<Paddle>>
+    mut ball_query: Query<(&mut Ball, &mut Transform)>
 ) {
     if game_state.pause && !game_state.direct_ball_movement {
         return;
     }
 
     let window = windows.get_primary().unwrap();
-    if let Ok((mut ball, mut ball_transform, ball_sprite)) = ball_query.get_single_mut() {
+    if let Ok((mut ball, mut ball_transform)) = ball_query.get_single_mut() {
 
         // direct ball movement (using cursor keys)
         if game_state.direct_ball_movement {

@@ -38,7 +38,7 @@ pub fn paddle_movement_system(keyboard_input: Res<Input<KeyCode>>,
             let mut ball_transform = ball_query.single_mut();
             let paddle_size = paddle_sprite.custom_size.unwrap();
             ball_transform.translation.x = paddle_transform.translation.x;
-            ball_transform.translation.y = paddle_transform.translation.y + paddle_size.y;
+            ball_transform.translation.y = paddle_transform.translation.y + paddle_size.y - 3.0;
         }
     }
 }

@@ -4,7 +4,7 @@ use crate::prelude::*;
 pub fn ball_collision_system(windows: Res<Windows>,
     game_state: Res<GameState>,
     mut ev_reader: EventReader<GameCommandEvent>,
-    mut ball_query: Query<(&mut Ball, &mut Transform, &mut Sprite), Without<Brick>>,
+    mut ball_query: Query<(&mut Ball, &mut Transform, &mut Sprite)>,
     mut paddle_query : Query<(&Transform, &Sprite), (With<Paddle>, Without<Ball>)>,
     mut bricks_query: Query<(Entity, &mut Sprite, &mut Transform, &mut Brick), (Without<Ball>, Without<Paddle>)>,
     mut commands: Commands
@@ -86,7 +86,7 @@ pub fn ball_collision_system(windows: Res<Windows>,
 
 /// Prints ball and paddle coordinates on the console.
 fn print_ball_paddle_coordinates(
-    ball_query: &mut Query<(&mut Ball, &mut Transform, &mut Sprite), Without<Brick>>,
+    ball_query: &mut Query<(&mut Ball, &mut Transform, &mut Sprite)>,
     paddle_query: &mut Query<(&Transform, &Sprite), (With<Paddle>, Without<Ball>)>
 ) {
     let (_, ball_transform, _) = ball_query.single_mut();
@@ -107,9 +107,9 @@ fn is_paddle_collide(ball_transform: &Transform,
     }
     let ball_size   = ball_sprite.custom_size.unwrap();
     let paddle_size = paddle_sprite.custom_size.unwrap();
-    let ball_x      = ball_transform.translation.x - (ball_size.x / 2.);
+    let ball_x      = ball_transform.translation.x - (ball_size.x / 2.0);
     let ball_y      = ball_transform.translation.y;
-    let paddle_x1   = paddle_transform.translation.x - (paddle_size.x / 2.);
+    let paddle_x1   = paddle_transform.translation.x - (paddle_size.x / 2.0);
     let paddle_x2   = paddle_x1 + paddle_size.x;
     let paddle_y    = paddle_transform.translation.y + paddle_size.y;
     ball_y <= paddle_y && ball_x >= paddle_x1 && ball_x <= paddle_x2
