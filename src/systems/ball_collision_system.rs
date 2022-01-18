@@ -3,14 +3,15 @@ use crate::prelude::*;
 
 pub fn ball_collision_system(windows: Res<Windows>,
     game_state: Res<GameState>,
+    mut ev_reader: EventReader<GameCommandEvent>,
     mut ball_query: Query<(&mut Ball, &mut Transform, &mut Sprite), Without<Brick>>,
     mut paddle_query : Query<(&Transform, &Sprite), (With<Paddle>, Without<Ball>)>,
     mut bricks_query: Query<(Entity, &mut Sprite, &mut Transform, &mut Brick), (Without<Ball>, Without<Paddle>)>,
     mut commands: Commands
 ) {
-    // if has_game_command(&mut ev_game_command, GameCommand::ShowCoordinates) {
-    //     print_ball_paddle_coordinates(&mut ball_query, &mut paddle_query)
-    // }
+    if has_game_command(&mut ev_reader, GameCommand::ShowCoordinates) {
+        print_ball_paddle_coordinates(&mut ball_query, &mut paddle_query)
+    }
 
     if game_state.pause {
         return;

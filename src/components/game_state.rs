@@ -1,3 +1,4 @@
+use std::ops::{Deref, DerefMut};
 use std::thread::current;
 use crate::levels::MAX_LEVELS;
 use crate::prelude::*;
@@ -18,7 +19,7 @@ pub struct GameState {
 
     pub test_circle_active: bool,
 
-    pub game_commands: GameCommandStack,
+    game_commands: Vec<GameCommand>,
 }
 
 impl Default for GameState {
@@ -29,7 +30,7 @@ impl Default for GameState {
             current_level: [0, 0],
             paddle_owns_ball: true,
             test_circle_active: false,
-            game_commands: GameCommandStack::default()
+            game_commands: Vec::new()
         }
     }
 }
@@ -75,6 +76,31 @@ impl GameState {
             println!("*** TEST CIRCLE DEACTIVATED ****");
         }
     }
+
+    pub fn add_command(&mut self, command: GameCommand) -> bool {
+        if !self.game_commands.contains(&command) {
+            self.game_commands.push(command);
+            return true;
+        }
+        false
+    }
+
+    pub fn contains_command(&mut self, command: &GameCommand, auto_remove: bool) -> bool {
+        let index = self.game_commands.iter().position(|c| c == command);
+        if index.is_some() {
+            if auto_remove {
+                self.game_commands.remove(index.unwrap());
+            }
+            return true
+        }
+        false
+    }
+
+    pub fn has_command(&mut self, command: &GameCommand) -> bool {
+        self.contains_command(command, true)
+    }
+
+    pub fn clear_commands(&mut self) {
+        self.game_commands.clear();
+    }
 }
-
-

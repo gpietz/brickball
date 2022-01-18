@@ -5,6 +5,7 @@ use crate::rectangle::Rectangle;
 pub fn ball_movement_system(keyboard_input: Res<Input<KeyCode>>,
     windows: Res<Windows>,
     game_state: Res<GameState>,
+    mut ev_reader: EventReader<GameCommandEvent>,
     mut ball_query: Query<(&mut Ball, &mut Transform, &Sprite), Without<Paddle>>
 ) {
     if game_state.pause && !game_state.direct_ball_movement {
@@ -18,11 +19,11 @@ pub fn ball_movement_system(keyboard_input: Res<Input<KeyCode>>,
         if game_state.direct_ball_movement {
 
             // ball centering (Shift + C)
-            // if has_game_command(&mut ev_game_command, GameCommand::CenterBall) {
-            //     ball_transform.translation.x = 0.;
-            //     ball_transform.translation.y = 0.;
-            //     println!("Ball centered.");
-            // }
+            if has_game_command(&mut ev_reader, GameCommand::CenterBall) {
+                ball_transform.translation.x = 0.;
+                ball_transform.translation.y = 0.;
+                println!("Ball centered.");
+            }
 
             // cursor keys for movement
             if keyboard_input.pressed(KeyCode::Up) {

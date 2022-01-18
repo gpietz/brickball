@@ -5,16 +5,17 @@ pub const BRICK_SIZE: [u8; 2] = [38, 25];
 
 pub fn brick_spawning_system(levels: Res<Levels>,
     windows: Res<Windows>,
+    mut ev_reader: EventReader<GameCommandEvent>,
     mut game_state: ResMut<GameState>,
     mut commands: Commands,
     brick_query: Query<(Entity), (With<Brick>)>
 ) {
     let mut bricks_removed = false;
 
-    // if has_game_command(&mut ev_game_command, GameCommand::RemoveBricks) {
-    //     remove_all_bricks(&mut commands, &brick_query);
-    //     bricks_removed = true;
-    // }
+    if has_game_command(&mut ev_reader, GameCommand::RemoveBricks) {
+        remove_all_bricks(&mut commands, &brick_query);
+        bricks_removed = true;
+    }
 
     if !is_update_required(&game_state) {
         return;

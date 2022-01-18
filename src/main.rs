@@ -7,6 +7,7 @@ mod levels;
 mod level_data;
 mod level_color;
 mod helpers;
+mod events;
 
 mod prelude {
     pub const TIME_STEP: f32 = 1. / 60.;
@@ -20,6 +21,7 @@ mod prelude {
     pub use crate::level_data::*;
     pub use crate::level_color::*;
     pub use crate::rectangle::*;
+    pub use crate::events::*;
 }
 
 use crate::prelude::*;
@@ -33,7 +35,9 @@ use crate::setup::*;
 use bevy::app::Events;
 use bevy::ecs::system::Remove;
 use bevy::window::WindowResized;
+use bevy::input::system::exit_on_esc_system;
 use bevy_prototype_lyon::plugin::ShapePlugin;
+
 use crate::systems::keyboard_input_system::keyboard_input_system;
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
@@ -45,7 +49,7 @@ enum AppState {
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        //.add_plugin(ShapePlugin)
+        .add_plugin(ShapePlugin)
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.00)))
         .insert_resource(WindowDescriptor {
             width: 1024.0,
@@ -54,6 +58,7 @@ fn main() {
         })
         .insert_resource(GameState::default())
         .insert_resource(Levels::default())
+        .add_event::<GameCommandEvent>()
         .add_startup_system(setup.system())
         .add_startup_system(game_object_spawner)
         //.add_system(resize_notificator.system())
@@ -64,7 +69,7 @@ fn main() {
         .add_system(test_circle_system)
         .add_system(keyboard_input_system)
         .add_system(text_update_system)
-        .add_system(bevy::input::system::exit_on_esc_system)
+        .add_system(exit_on_esc_system)
         .run();
 }
 

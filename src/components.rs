@@ -1,12 +1,12 @@
-pub mod ball;
-pub mod wall;
-pub mod game_state;
-pub mod game_command;
-pub mod debug_text;
-pub mod collider;
-pub mod brick;
-pub mod paddle;
-pub mod test_circle;
+mod ball;
+mod brick;
+mod wall;
+mod game_state;
+mod debug_text;
+mod collider;
+mod paddle;
+mod test_circle;
+mod game_command;
 
 pub use crate::components::ball::*;
 pub use crate::components::wall::*;
