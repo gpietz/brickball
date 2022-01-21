@@ -13,7 +13,7 @@ pub fn ball_collision_system(windows: Res<Windows>,
         print_ball_paddle_coordinates(&mut ball_query, &mut paddle_query)
     }
 
-    if game_state.pause {
+    if game_state.pause || game_state.paddle_owns_ball {
         return;
     }
 
@@ -70,6 +70,7 @@ pub fn ball_collision_system(windows: Res<Windows>,
                     // ball_rect_2.transform(0., ball.velocity.y);
                     // if is_brick_collide(&ball_rect_2, &brick_transform) {
                         ball.velocity.y = -ball.velocity.y;
+                        println!("New velocity: {}", ball.velocity.y);
                     //}
 
                     brick.hits_required -= 1;

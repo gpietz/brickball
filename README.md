@@ -27,8 +27,8 @@ I started by display and moving the player paddel. After that I added the ball a
 <td>changes the ball speed.</td>
 </tr>
 tr>
-  <td>Shift & - / +</td>
-  <td>Activated next or previous level.
+<td>Shift & - / +</td>
+<td>Activated next or previous level.
 <tr>
 <td>Shift & C</td>
 <td>Centers the ball on the field (only when ball control is activated).</td>
@@ -45,5 +45,6 @@ tr>
 
 <p>
   <br/>
-  <img src="https://github.com/gpietz/brickball/blob/master/docs/screenshots/brickball220111-01.png" />
+  <img src="https://github.com/gpietz/brickball/blob/master/docs/screenshots/brickball220111-01.png" 
+       alt="Project Screenshot" />
 </p>
