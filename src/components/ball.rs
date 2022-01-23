@@ -1,9 +1,13 @@
 use crate::prelude::*;
 
+const MINIMUM_VELOCITY: f32 = 1.0;
+const VELOCITY_INCREASE: f32 = 0.35;
+
 #[derive(Component)]
 pub struct Ball {
     pub velocity: Vec2,
-    pub radius: f32
+    pub radius: f32,
+    pub brick_velocity_change: Option<Vec2>,
 }
 
 impl Ball {
@@ -12,6 +16,16 @@ impl Ball {
         self.velocity.y = calculate_new_speed(self.velocity.y, value);
         println!("Ball speed now: {}, {}", self.velocity.x, self.velocity.y);
     }
+
+    pub fn update_brick_velocity_change(&mut self, transform: &Transform) {
+        self.brick_velocity_change = Option::Some(Vec2::new(
+            transform.translation.x, transform.translation.y
+        ));
+    }
+
+    pub fn clear_brick_velocity_change(&mut self) {
+        self.brick_velocity_change = Option::None;
+    }
 }
 
 impl Default for Ball {
@@ -19,6 +33,7 @@ impl Default for Ball {
         Self {
             velocity: Vec2::new(5.0, 5.0),
             radius: 20.0,
+            brick_velocity_change: Option::None
         }
     }
 }

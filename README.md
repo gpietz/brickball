@@ -43,8 +43,14 @@ tr>
 </tr>
 </table>
 
+**Screenshot**
 <p>
-  <br/>
   <img src="https://github.com/gpietz/brickball/blob/master/docs/screenshots/brickball220111-01.png" 
        alt="Project Screenshot" />
 </p>
+
+**Planned changes** (not yet done): 
+* Enable fullscreen rendering
+* Add textures for sprite elements
+* Add sound effects
+* Add title screen with menu

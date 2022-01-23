@@ -49,6 +49,7 @@ pub fn ball_collision_system(windows: Res<Windows>,
                 if is_paddle_collide(&ball_transform, &ball_sprite,
                                      &paddle_transform, &paddle_sprite) {
                     ball.velocity.y = -ball.velocity.y;
+                    ball.clear_brick_velocity_change();
                     paddle_collision = true;
                 }
             }
@@ -58,7 +59,9 @@ pub fn ball_collision_system(windows: Res<Windows>,
         if !wall_collision && !paddle_collision {
             let mut ball_rect = Rectangle::create_from_sprite(&ball_transform, &ball_sprite);
             for (brick_entity, mut brick_sprite, mut brick_transform, mut brick) in bricks_query.iter_mut() {
-                if is_brick_collide(&ball_rect, &brick_transform) {
+                if is_brick_collide(&ball_rect, &brick_transform)
+                    && check_brick_velocity_change(&mut ball, &ball_sprite, &ball_transform) {
+                    ball.update_brick_velocity_change(&ball_transform);
 
                     let mut ball_rect_2 = Rectangle::create_from(&ball_rect);
                     // ball_rect_2.transform(ball.velocity.x, 0.);
@@ -121,4 +124,14 @@ fn is_brick_collide(ball_rect: &Rectangle, brick_transform: &Transform) -> bool 
     let brick_height = f32::from(BRICK_SIZE[1]);
     let brick_rect   = Rectangle::create_from_values(&brick_transform, brick_width, brick_height);
     ball_rect.intersects_with(&brick_rect)
+}
+
+fn check_brick_velocity_change(ball: &Ball, ball_sprite: &Sprite, transform: &Transform) -> bool {
+    if ball.brick_velocity_change.is_none() {
+        return true;
+    }
+    let ball_size = ball_sprite.custom_size.unwrap();
+    let brick_velocity_change = ball.brick_velocity_change.unwrap();
+    let distance = (brick_velocity_change.y - transform.translation.y).abs();
+    distance > (ball_size.y * 1.5)
 }
