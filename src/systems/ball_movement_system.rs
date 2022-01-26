@@ -1,4 +1,3 @@
-use crate::BRICK_SIZE;
 use crate::prelude::*;
 use crate::rectangle::Rectangle;
 

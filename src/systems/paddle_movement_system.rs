@@ -4,7 +4,7 @@ pub fn paddle_movement_system(keyboard_input: Res<Input<KeyCode>>,
     windows: Res<Windows>,
     mut game_state: ResMut<GameState>,
     mut paddle_query: Query<(&mut Transform, &mut Paddle, &Sprite)>,
-    mut ball_query: Query<(&mut Transform), (With<Ball>, Without<Paddle>)>
+    mut ball_query: Query<&mut Transform, (With<Ball>, Without<Paddle>)>
 ) {
     if let Ok((mut paddle_transform, mut paddle, paddle_sprite)) = paddle_query.get_single_mut() {
         // check cursor keys for direction
@@ -114,8 +114,8 @@ pub fn paddle_movement_system(keyboard_input: Res<Input<KeyCode>>,
 
 fn is_in_range(windows: &Res<Windows>, sprite: &Sprite, transform: &mut Transform, delta: f32) -> bool {
     let window = windows.get_primary().unwrap();
-    let window_hw = (window.width() / 2.0);
-    let paddle_hw = (sprite.custom_size.unwrap().x / 2.0);
+    let window_hw = window.width() / 2.0;
+    let paddle_hw = sprite.custom_size.unwrap().x / 2.0;
     return if delta < 0.0 {
         ((transform.translation.x - paddle_hw) - WALL_WIDTH) + delta > -window_hw
     }

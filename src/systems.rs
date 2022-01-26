@@ -7,3 +7,4 @@ pub mod test_circle_system;
 pub mod ball_collision_system;
 pub mod play_audio_system;
 pub mod check_audio_loading_system;
+pub mod main_menu_system;

@@ -8,7 +8,7 @@ pub fn brick_spawning_system(levels: Res<Levels>,
     mut ev_reader: EventReader<GameCommandEvent>,
     mut game_state: ResMut<GameState>,
     mut commands: Commands,
-    brick_query: Query<(Entity), (With<Brick>)>
+    brick_query: Query<Entity, With<Brick>>
 ) {
     let mut bricks_removed = false;
 
@@ -40,7 +40,7 @@ pub fn brick_spawning_system(levels: Res<Levels>,
     println!("Level activated: {}", next_level);
 }
 
-fn remove_all_bricks(commands: &mut Commands, brick_query: &Query<(Entity), (With<Brick>)>) {
+fn remove_all_bricks(commands: &mut Commands, brick_query: &Query<Entity, With<Brick>>) {
     for brick_entity in brick_query.iter() {
         commands.entity(brick_entity).despawn();
     }

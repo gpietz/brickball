@@ -36,6 +36,8 @@ use crate::systems::test_circle_system::*;
 use crate::systems::ball_collision_system::*;
 use crate::systems::play_audio_system::*;
 use crate::systems::check_audio_loading_system::*;
+use crate::systems::main_menu_system::*;
+use crate::systems::keyboard_input_system::*;
 use crate::setup::*;
 use crate::audio_setup::*;
 use bevy::app::Events;
@@ -45,13 +47,6 @@ use bevy::input::system::exit_on_esc_system;
 use bevy_prototype_lyon::plugin::ShapePlugin;
 use bevy_kira_audio::AudioPlugin;
 
-use crate::systems::keyboard_input_system::keyboard_input_system;
-
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
-enum AppState {
-    IntroScreen,
-    Main
-}
 
 fn main() {
     App::new()

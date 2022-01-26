@@ -1,7 +1,12 @@
-use std::ops::{Deref, DerefMut};
-use std::thread::current;
 use crate::levels::MAX_LEVELS;
 use crate::prelude::*;
+
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+pub enum AppState {
+    IntroScreen,
+    MainMenu,
+    Game
+}
 
 pub struct GameState {
     /// Flag indicating game is in pause state.
@@ -20,6 +25,8 @@ pub struct GameState {
     pub test_circle_active: bool,
 
     game_commands: Vec<GameCommand>,
+
+    pub app_state: AppState,
 }
 
 impl Default for GameState {
@@ -30,7 +37,8 @@ impl Default for GameState {
             current_level: [0, 0],
             paddle_owns_ball: true,
             test_circle_active: false,
-            game_commands: Vec::new()
+            game_commands: Vec::new(),
+            app_state: AppState::MainMenu
         }
     }
 }
