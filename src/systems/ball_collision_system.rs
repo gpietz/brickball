@@ -1,9 +1,15 @@
 use crate::BRICK_SIZE;
 use crate::prelude::*;
 
+const BALL_HITS_PEDDLE: &str = "impact1";
+const BALL_HITS_BRICK:  &str = "impact2";
+const BALL_KILLS_BRICK: &str = "impact3";
+const BALL_HITS_WALL:   &str = "impact1";
+
 pub fn ball_collision_system(windows: Res<Windows>,
     game_state: Res<GameState>,
     mut ev_reader: EventReader<GameCommandEvent>,
+    mut ev_play_sound: EventWriter<PlaySoundEvent>,
     mut ball_query: Query<(&mut Ball, &mut Transform, &mut Sprite)>,
     mut paddle_query : Query<(&Transform, &Sprite), (With<Paddle>, Without<Ball>)>,
     mut bricks_query: Query<(Entity, &mut Sprite, &mut Transform, &mut Brick), (Without<Ball>, Without<Paddle>)>,
@@ -29,17 +35,21 @@ pub fn ball_collision_system(windows: Res<Windows>,
             ball.velocity.y = -ball.velocity.y;
             wall_collision = true;
         }
-        if ball_x > (window_right(&window) - ball_diff) {
+        else if ball_x > (window_right(&window) - ball_diff) {
             ball.velocity.x = -ball.velocity.x;
             wall_collision = true;
         }
-        if ball_y < (window_bottom(&window) - ball_diff) {
+        else if ball_y < (window_bottom(&window) - ball_diff) {
             ball.velocity.y = -ball.velocity.y;
             wall_collision = true;
         }
-        if ball_x < (window_left(&window) + ball_diff) {
+        else if ball_x < (window_left(&window) + ball_diff) {
             ball.velocity.x = -ball.velocity.x;
             wall_collision = true;
+        }
+
+        if wall_collision {
+            ev_play_sound.send(PlaySoundEvent(BALL_HITS_WALL.to_string()))
         }
 
         // paddle collision
@@ -51,6 +61,7 @@ pub fn ball_collision_system(windows: Res<Windows>,
                     ball.velocity.y = -ball.velocity.y;
                     ball.clear_brick_velocity_change();
                     paddle_collision = true;
+                    ev_play_sound.send(PlaySoundEvent(BALL_HITS_PEDDLE.to_string()))
                 }
             }
         }
@@ -79,8 +90,10 @@ pub fn ball_collision_system(windows: Res<Windows>,
                     brick.hits_required -= 1;
                     if brick.hits_required <= 0 {
                         commands.entity(brick_entity).despawn();
+                        ev_play_sound.send(PlaySoundEvent(BALL_KILLS_BRICK.to_string()))
                     } else {
                         brick_sprite.color = Color::rgb(0.85, 0.85, 0.85);
+                        ev_play_sound.send(PlaySoundEvent(BALL_HITS_BRICK.to_string()))
                     }
                 }
             }

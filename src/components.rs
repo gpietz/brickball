@@ -7,6 +7,7 @@ mod collider;
 mod paddle;
 mod test_circle;
 mod game_command;
+mod game_assets;
 
 pub use crate::components::ball::*;
 pub use crate::components::wall::*;
@@ -17,3 +18,4 @@ pub use crate::components::collider::*;
 pub use crate::components::brick::*;
 pub use crate::components::paddle::*;
 pub use crate::components::test_circle::*;
+pub use crate::components::game_assets::*;

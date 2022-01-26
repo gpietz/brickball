@@ -5,9 +5,11 @@ use winapi::um::*;
 const WINDOW_TITLE : &str = "Bevy Test";
 
 pub fn setup(asset_server: Res<AssetServer>,
-             mut commands: Commands,
-             mut windows: ResMut<Windows>,
-             mut game_state: ResMut<GameState>) {
+    mut commands: Commands,
+    mut windows: ResMut<Windows>,
+    mut game_state: ResMut<GameState>) {
+
+    //let a : Handle<AudioSource> = asset_server.load("assets/sounds/sfx_sounds_impact1.mp3");
 
     // center/position window (using the winapi crate!);
     // the window title will be set here cause it is beeing ignored in the window descriptor.
@@ -50,6 +52,9 @@ pub fn setup(asset_server: Res<AssetServer>,
         ..Default::default()
     })
     .insert(DebugText);
+
+    // load sounds
+    commands.insert_resource(GameAssets::new(&asset_server));
 
     center_window(&mut window);
 }
