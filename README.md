@@ -26,7 +26,7 @@ I started by display and moving the player paddel. After that I added the ball a
 <td>- / +</td>
 <td>changes the ball speed.</td>
 </tr>
-tr>
+<tr>
 <td>Shift & - / +</td>
 <td>Activated next or previous level.
 <tr>
@@ -41,13 +41,13 @@ tr>
 <td>Esc</td>
 <td>Exits the game.</td>
 </tr>
-</table>
+</table><br/>
 
 **Screenshot**
 <p>
   <img src="https://github.com/gpietz/brickball/blob/master/docs/screenshots/brickball220111-01.png" 
        alt="Project Screenshot" />
-</p>
+</p><br/>
 
 **Planned changes** (not yet done): 
 * Enable fullscreen rendering
