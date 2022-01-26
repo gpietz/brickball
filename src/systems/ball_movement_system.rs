@@ -57,10 +57,10 @@ pub fn ball_movement_system(keyboard_input: Res<Input<KeyCode>>,
                 || keyboard_input.just_pressed(KeyCode::NumpadAdd) {
                 ball.change_speed(1.0);
             }
-        }
 
-        ball_transform.translation.x += ball.velocity.x;
-        ball_transform.translation.y += ball.velocity.y;
+            ball_transform.translation.x += ball.velocity.x;
+            ball_transform.translation.y += ball.velocity.y;
+        }
     }
 }
 
