@@ -25,8 +25,6 @@ pub struct GameState {
     pub test_circle_active: bool,
 
     game_commands: Vec<GameCommand>,
-
-    pub app_state: AppState,
 }
 
 impl Default for GameState {
@@ -38,7 +36,6 @@ impl Default for GameState {
             paddle_owns_ball: true,
             test_circle_active: false,
             game_commands: Vec::new(),
-            app_state: AppState::MainMenu
         }
     }
 }

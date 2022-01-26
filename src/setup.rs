@@ -23,6 +23,7 @@ pub fn setup(asset_server: Res<AssetServer>,
     commands.spawn_bundle(UiCameraBundle::default());
 
     // create text for position display
+    // TODO This belongs to the game object spawner!!!
     commands.spawn_bundle(TextBundle {
         style: Style {
             align_self: AlignSelf::FlexEnd,
@@ -53,7 +54,7 @@ pub fn setup(asset_server: Res<AssetServer>,
     })
     .insert(DebugText);
 
-    // load sounds
+    // load sounds and graphics
     commands.insert_resource(GameAssets::new(&asset_server));
 
     center_window(&mut window);

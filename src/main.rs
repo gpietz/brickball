@@ -41,6 +41,7 @@ use crate::systems::keyboard_input_system::*;
 use crate::setup::*;
 use crate::audio_setup::*;
 use bevy::app::Events;
+use bevy::ecs::schedule::IntoSystemDescriptor;
 use bevy::ecs::system::Remove;
 use bevy::window::WindowResized;
 use bevy::input::system::exit_on_esc_system;
@@ -53,6 +54,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugin(ShapePlugin)
         .add_plugin(AudioPlugin)
+        .add_state(AppState::MainMenu)
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.00)))
         .insert_resource(WindowDescriptor {
             width: 1024.0,
@@ -61,24 +63,38 @@ fn main() {
         })
         .insert_resource(GameState::default())
         .insert_resource(Levels::default())
-        .insert_resource(GameAssets { })
         .add_event::<GameCommandEvent>()
         .add_event::<PlaySoundEvent>()
         .add_startup_system(setup.system())
-        .add_startup_system(game_object_spawner)
+        //.add_startup_system(game_object_spawner)
         .add_startup_system(audio_setup)
         .add_system(check_audio_loading_system)
-        .add_system(brick_spawning_system)
-        .add_system(paddle_movement_system)
-        .add_system(ball_collision_system)
-        .add_system(ball_movement_system)
-        .add_system(test_circle_system)
-        .add_system(keyboard_input_system)
-        .add_system(text_update_system)
-        .add_system(play_audio_system)
         .add_system(exit_on_esc_system)
+        // mainmenu stage
+        .add_system_set(create_main_menu_set(main_menu_system))
+        // game stage
+        .add_system_set(SystemSet::on_enter(AppState::Game).with_system(game_object_spawner))
+        .add_system_set(create_game_set(brick_spawning_system))
+        .add_system_set(create_game_set(paddle_movement_system))
+        .add_system_set(create_game_set(ball_collision_system))
+        .add_system_set(create_game_set(ball_movement_system))
+        .add_system_set(create_game_set(test_circle_system))
+        .add_system_set(create_game_set(keyboard_input_system))
+        .add_system_set(create_game_set(text_update_system))
+        .add_system_set(create_game_set(play_audio_system))
         .run();
 }
+
+fn create_main_menu_set<Params>(system: impl IntoSystemDescriptor<Params>) -> SystemSet {
+    SystemSet::on_update(AppState::MainMenu).with_system(system)
+}
+
+
+fn create_game_set<Params>(system: impl IntoSystemDescriptor<Params>) -> SystemSet {
+    SystemSet::on_update(AppState::Game).with_system(system)
+}
+
+
 
 // NEW CODE FOR WINDOW SIZE DETECTION !!!!!
 // fn resize_notificator(windows: ResMut<Windows>, mut window_size: ResMut<WindowSize>) {
