@@ -32,6 +32,8 @@ pub fn keyboard_input_system(keyboard_input: Res<Input<KeyCode>>,
         ev_writer.send(GameCommandEvent(GameCommand::RemoveBricks));
     } else if is_center_ball_hotkey_pressed(&keyboard_input) && game_state.direct_ball_movement {
         ev_writer.send(GameCommandEvent(GameCommand::CenterBall));
+    } else if keyboard_input.just_pressed(KeyCode::R) {
+        game_state.paddle_owns_ball = true;
     }
 }
 
