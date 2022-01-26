@@ -47,7 +47,7 @@ pub fn ball_movement_system(keyboard_input: Res<Input<KeyCode>>,
             }
             return;
         }
-        else {
+        else if !game_state.paddle_owns_ball {
             if keyboard_input.just_pressed(KeyCode::Minus)
                 || keyboard_input.just_pressed(KeyCode::NumpadSubtract) {
                 ball.change_speed(-1.0);
