@@ -17,8 +17,6 @@ pub fn play_audio_system(
                 if channel.is_some() {
                     let ch = channel.unwrap();
                     audio.play_in_channel(source.handle.clone(), &ch);
-
-                    println!("Playing .... {} (loaded: {})", sound_name.clone(), source.loaded);
                 }
                 return;
             }

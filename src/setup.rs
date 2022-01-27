@@ -22,38 +22,6 @@ pub fn setup(asset_server: Res<AssetServer>,
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
     commands.spawn_bundle(UiCameraBundle::default());
 
-    // create text for position display
-    // TODO This belongs to the game object spawner!!!
-    commands.spawn_bundle(TextBundle {
-        style: Style {
-            align_self: AlignSelf::FlexEnd,
-            ..Default::default()
-        },
-        text: Text {
-            sections: vec![
-                TextSection {
-                    value: "Pos: ".to_string(),
-                    style: TextStyle {
-                        font: asset_server.load("fonts/FiraMono-Medium.ttf"),
-                        font_size: 16.0,
-                        color: Color::YELLOW
-                    }
-                },
-                TextSection {
-                    value: "".to_string(),
-                    style: TextStyle {
-                        font: asset_server.load("fonts/FiraMono-Medium.ttf"),
-                        font_size: 16.0,
-                        color: Color::YELLOW
-                    }
-                },
-            ],
-            ..Default::default()
-        },
-        ..Default::default()
-    })
-    .insert(DebugText);
-
     // load sounds and graphics
     commands.insert_resource(GameAssets::new(&asset_server));
 

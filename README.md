@@ -8,20 +8,21 @@ I started by display and moving the player paddel. After that I added the ball a
 Now I added extended keyboard control over the elements. So you can use the following keys to control the game: 
 
 
-|          Keys | Description                                                           |
-|--------------:|:----------------------------------------------------------------------|
-|   Cursor keys | Controls the player paddle (or the ball).                             |
-|     Space bar | Unlocks the ball from paddle (game starts).                           |
-|            F1 | Toggles between paddle or ball control.                               |
-|            F2 | Prints the ball and paddle coordinates.                               |
-|            F3 | Toggles red test circle on / off.                                     |
-|            F4 | Remove all bricks from current level.                                 |
-|            F5 | Reset all bricks in the current level.                                |
-|         - / + | Changes the ball speed.                                               | 
-| Shift & - / + | Activates next or previous level.                                     |
-|     Shift & C | Centers the ball on the field (only when ball control is activated).  |
-|             R | Resets the ball; locks it again on the paddle.                        |
-|           Esc | Exits the game.                                                       |
+|          Keys | Description                                                          |
+|--------------:|:---------------------------------------------------------------------|
+|   Cursor keys | Controls the player paddle (or the ball).                            |
+|     Space bar | Unlocks the ball from paddle (game starts).                          |
+|            F1 | Toggles between paddle or ball control.                              |
+|            F2 | Prints the ball and paddle coordinates.                              |
+|            F3 | Toggles red test circle on / off.                                    |
+|            F4 | Remove all bricks from current level.                                |
+|            F5 | Reset all bricks in the current level.                               |
+|            F6 | Toggle ball coordinates display on / off.                            |
+|         - / + | Changes the ball speed.                                              | 
+| Shift & - / + | Activates next or previous level.                                    |
+|     Shift & C | Centers the ball on the field (only when ball control is activated). |
+|             R | Resets the ball; locks it again on the paddle.                       |
+|           Esc | Exits the game.                                                      |
 
 ## Screenshot
 <p>

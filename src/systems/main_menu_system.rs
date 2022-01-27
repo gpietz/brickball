@@ -11,12 +11,12 @@ pub fn main_menu_system(
 ) {
     let query_result = query.get_single_mut();
     if query_result.is_err() {
-            // Main menu graphics not yet present, so we've to spawn it.
-            commands.spawn_bundle(SpriteBundle {
-                texture: game_assets.main_menu_gfx.clone(),
-                ..Default::default()
-            })
-            .insert(MainMenu);
+        // Main menu graphics not yet present, so we've to spawn it.
+        commands.spawn_bundle(SpriteBundle {
+            texture: game_assets.main_menu_gfx.clone(),
+            ..Default::default()
+        })
+        .insert(MainMenu);
     }
 
     // Let's start the game;

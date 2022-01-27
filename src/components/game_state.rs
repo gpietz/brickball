@@ -25,6 +25,8 @@ pub struct GameState {
     pub test_circle_active: bool,
 
     game_commands: Vec<GameCommand>,
+
+    pub show_ball_coordinates: bool,
 }
 
 impl Default for GameState {
@@ -36,6 +38,7 @@ impl Default for GameState {
             paddle_owns_ball: true,
             test_circle_active: false,
             game_commands: Vec::new(),
+            show_ball_coordinates: false,
         }
     }
 }
@@ -76,11 +79,24 @@ impl GameState {
     pub fn toggle_test_circle(&mut self) {
         self.test_circle_active = !self.test_circle_active;
         if self.test_circle_active {
-            println!("*** TEST CIRCLE ACTIVATED ****");
+            println!("*** TEST CIRCLE ACTIVATED ***");
         } else {
-            println!("*** TEST CIRCLE DEACTIVATED ****");
+            println!("*** TEST CIRCLE DEACTIVATED ***");
         }
     }
+
+    pub fn toggle_show_ball_coords(&mut self) {
+        self.show_ball_coordinates = !self.show_ball_coordinates;
+        if self.show_ball_coordinates {
+            println!("*** BALL COORDINATES ACTIVATED ***");
+        } else {
+            println!("*** BALL COORDINATES DEACTIVATED ***");
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // Commands
+    //----------------------------------------------------------------------------------------------
 
     pub fn add_command(&mut self, command: GameCommand) -> bool {
         if !self.game_commands.contains(&command) {
