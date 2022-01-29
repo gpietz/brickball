@@ -44,15 +44,19 @@ Now I added extended keyboard control over the elements. So you can use the foll
 
 ## Project update and notes
 
-<span style="text-decoration: underline">
-2021-01-26
-</span><br/>
+#### _2021-01-29_
+I've revised the main game routine. Now it's using <a href="https://bevy-cheatbook.github.io/programming/states.html">
+bevy's states</a> which results into more options for the runtime "flow".<br/>  
+But I dont feel certain about if it was a good idea to separate the ball movement from the collision detection.  
+Maybe I've to combine this into one system.
+
+#### _2021-01-26_
 Finally I managed to get the audio playback working in the project. 
 As suggested I'm using the <a href="https://github.com/niklasei/bevy_kira_audio">bevy_kira_audio</a> 
 for it instead of the built-in audio replay routine. To make this working I had 
 to change the features of the bevy library. For more information about it, you 
-should take a look <a href="https://bevy-cheatbook.github.io/features/audio.html">here</a>.
-
+should take a look <a href="https://bevy-cheatbook.github.io/features/audio.html">here</a>.  
+  
 I'm not really happy with the current sounds, they doesn't seem to fit for the 
 game. Maybe I'll find some better sounds in the next days. Actual I want spent
 some time on the fullscreen display and there are still some silly bugs in 
