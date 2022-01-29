@@ -2,13 +2,15 @@ use crate::prelude::*;
 
 #[derive(Component)]
 pub struct Brick {
+    pub id: u32,
     pub hits_required: u8,
 }
 
-impl Default for Brick {
-    fn default() -> Self {
+impl Brick {
+    pub fn new(id: u32, hits_required: u8) -> Self {
         Self {
-            hits_required: 1
+            id,
+            hits_required
         }
     }
 }

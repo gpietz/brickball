@@ -18,6 +18,7 @@ Now I added extended keyboard control over the elements. So you can use the foll
 |            F4 | Remove all bricks from current level.                                |
 |            F5 | Reset all bricks in the current level.                               |
 |            F6 | Toggle ball coordinates display on / off.                            |
+ |            F7 | Toggles ball collision view on / off.                                |
 |         - / + | Changes the ball speed.                                              | 
 | Shift & - / + | Activates next or previous level.                                    |
 |     Shift & C | Centers the ball on the field (only when ball control is activated). |

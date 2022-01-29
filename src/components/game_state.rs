@@ -27,6 +27,8 @@ pub struct GameState {
     game_commands: Vec<GameCommand>,
 
     pub show_ball_coordinates: bool,
+
+    pub show_ball_collision_field: bool,
 }
 
 impl Default for GameState {
@@ -39,6 +41,7 @@ impl Default for GameState {
             test_circle_active: false,
             game_commands: Vec::new(),
             show_ball_coordinates: false,
+            show_ball_collision_field: false
         }
     }
 }
@@ -91,6 +94,15 @@ impl GameState {
             println!("*** BALL COORDINATES ACTIVATED ***");
         } else {
             println!("*** BALL COORDINATES DEACTIVATED ***");
+        }
+    }
+
+    pub fn toggle_show_ball_collision_field(&mut self) {
+        self.show_ball_collision_field = !self.show_ball_collision_field;
+        if self.show_ball_coordinates {
+            println!("*** BALL COLLISION FIELD ACTIVATED ***");
+        } else {
+            println!("*** BALL COLLISION FIELD DEACTIVATED ***");
         }
     }
 

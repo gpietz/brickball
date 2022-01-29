@@ -31,8 +31,9 @@ pub fn brick_spawning_system(levels: Res<Levels>,
 
     let primary_window = windows.get_primary().unwrap();
     let mut line_nr = 0;
+    let mut brick_id = 0;
     for data in level_data {
-        insert_brick_line(next_level, line_nr, data, &primary_window, &levels, &mut commands);
+        insert_brick_line(next_level, line_nr, data, &primary_window, &levels, &mut commands, &mut brick_id);
         line_nr += 1;
     }
 
@@ -59,10 +60,14 @@ fn get_next_level(game_state: &ResMut<GameState>) -> u8 {
     }
 }
 
-fn insert_brick_line(level: u8, line_nr: u8, data: &String,
+fn insert_brick_line(
+    level: u8,
+    line_nr: u8,
+    data: &String,
     window: &Window,
     levels: &Res<Levels>,
-    mut commands: &mut Commands
+    mut commands: &mut Commands,
+    mut brick_id: &mut u32
 ) {
     // calculate first brick position
     let mut x_pos: f32 = 60.;
@@ -76,13 +81,18 @@ fn insert_brick_line(level: u8, line_nr: u8, data: &String,
         if brick_char != ' ' {
             let brick_color = levels.get_brick_color(level, brick_char);
             let hits_required = if brick_char.is_ascii_uppercase() { 2 } else { 1 };
-            add_brick(x_pos, y_pos, brick_color, &mut commands, hits_required);
+            *brick_id += 1u32;
+            add_brick(x_pos, y_pos, brick_color, &mut commands, hits_required, *brick_id);
         }
         x_pos += f32::from(BRICK_SIZE[0]) + 2.0;
     }
 }
 
-fn add_brick(x: f32, y: f32, color: Color, mut commands: &mut Commands, hits_required: u8) {
+fn add_brick(x: f32,y: f32,
+             color: Color,
+             mut commands: &mut Commands,
+             hits_required: u8,
+             brick_id: u32) {
     let width  = f32::from(BRICK_SIZE[0]);
     let height = f32::from(BRICK_SIZE[1]);
     commands.spawn_bundle(SpriteBundle {
@@ -98,8 +108,5 @@ fn add_brick(x: f32, y: f32, color: Color, mut commands: &mut Commands, hits_req
         ..Default::default()
     })
     .insert(Collider::Brick)
-    .insert(Brick {
-        hits_required,
-        ..Default::default()
-    });
+    .insert(Brick::new(brick_id, hits_required));
 }

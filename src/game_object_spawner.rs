@@ -4,7 +4,11 @@ const PADDLE_WIDTH: f32 = 200.0;
 const PADDLE_HEIGHT: f32 = 20.0;
 pub const WALL_WIDTH: f32 = 30.0;
 
-pub fn game_object_spawner(windows: Res<Windows>, mut commands: Commands) {
+pub fn game_object_spawner(
+    windows: Res<Windows>,
+    mut commands: Commands,
+    app_state: ResMut<State<AppState>>
+) {
     let window = windows.get_primary().unwrap();
     spawn_paddle(&window, &mut commands);
     spawn_walls(&window, &mut commands);

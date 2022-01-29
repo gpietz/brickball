@@ -38,6 +38,7 @@ use crate::systems::check_audio_loading_system::*;
 use crate::systems::main_menu_system::*;
 use crate::systems::keyboard_input_system::*;
 use crate::systems::show_ball_coords_system::*;
+use crate::systems::ball_collision_field_system::*;
 use crate::setup::*;
 use crate::audio_setup::*;
 use bevy::ecs::schedule::IntoSystemDescriptor;
@@ -63,31 +64,28 @@ fn main() {
         .add_event::<GameCommandEvent>()
         .add_event::<PlaySoundEvent>()
         .add_startup_system(setup.system())
-        //.add_startup_system(game_object_spawner)
         .add_startup_system(audio_setup)
         .add_system(check_audio_loading_system)
         .add_system(exit_on_esc_system)
         // main menu stage
-        .add_system_set(create_main_menu_set(main_menu_system))
+        .add_system_set(SystemSet::on_update(AppState::MainMenu)
+            .with_system(main_menu_system))
         // game stage
-        .add_system_set(SystemSet::on_enter(AppState::Game).with_system(game_object_spawner))
-        .add_system_set(create_game_set(brick_spawning_system))
-        .add_system_set(create_game_set(paddle_movement_system))
-        .add_system_set(create_game_set(ball_collision_system))
-        .add_system_set(create_game_set(ball_movement_system))
-        .add_system_set(create_game_set(test_circle_system))
-        .add_system_set(create_game_set(keyboard_input_system))
-        .add_system_set(create_game_set(play_audio_system))
-        .add_system_set(create_game_set(show_ball_coords_system))
+        .add_system_set(SystemSet::on_enter(AppState::Game)
+            .with_system(game_object_spawner))
+        .add_system_set(SystemSet::on_update(AppState::Game)
+            .with_system(brick_spawning_system)
+            .with_system(paddle_movement_system)
+            .with_system(ball_movement_system
+                .chain(ball_collision_system)
+                .chain(ball_collision_field_system)
+            )
+            .with_system(test_circle_system)
+            .with_system(keyboard_input_system)
+            .with_system(play_audio_system)
+            .with_system(show_ball_coords_system)
+        )
         .run();
-}
-
-fn create_main_menu_set<Params>(system: impl IntoSystemDescriptor<Params>) -> SystemSet {
-    SystemSet::on_update(AppState::MainMenu).with_system(system)
-}
-
-fn create_game_set<Params>(system: impl IntoSystemDescriptor<Params>) -> SystemSet {
-    SystemSet::on_update(AppState::Game).with_system(system)
 }
 
 // NEW CODE FOR WINDOW SIZE DETECTION !!!!!

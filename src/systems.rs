@@ -8,3 +8,4 @@ pub mod play_audio_system;
 pub mod check_audio_loading_system;
 pub mod main_menu_system;
 pub mod show_ball_coords_system;
+pub mod ball_collision_field_system;

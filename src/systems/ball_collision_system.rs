@@ -29,30 +29,37 @@ pub fn ball_collision_system(windows: Res<Windows>,
         let ball_y = ball_transform.translation.y;
         let ball_diff = WALL_WIDTH + 10.; // Wall width + half of ball radius
 
-        // wall collision
-        let mut wall_collision = false;
+        // wall collision --------------------------------------------------------------------------
+        let wall_collision = ball.wall_collision;
         if ball_y > (window_top(&window) - ball_diff) {
-            ball.velocity.y = -ball.velocity.y;
-            wall_collision = true;
-        }
-        else if ball_x > (window_right(&window) - ball_diff) {
-            ball.velocity.x = -ball.velocity.x;
-            wall_collision = true;
-        }
-        else if ball_y < (window_bottom(&window) - ball_diff) {
-            ball.velocity.y = -ball.velocity.y;
-            wall_collision = true;
-        }
-        else if ball_x < (window_left(&window) + ball_diff) {
-            ball.velocity.x = -ball.velocity.x;
-            wall_collision = true;
+            if !wall_collision {
+                ball.velocity.y = -ball.velocity.y;
+            }
+            ball.wall_collision = true;
+        } else if ball_x > (window_right(&window) - ball_diff) {
+            if !wall_collision {
+                ball.velocity.x = -ball.velocity.x;
+            }
+            ball.wall_collision = true;
+        } else if ball_y < (window_bottom(&window) - ball_diff) {
+            if !wall_collision {
+                ball.velocity.y = -ball.velocity.y;
+            }
+            ball.wall_collision = true;
+        } else if ball_x < (window_left(&window) + ball_diff) {
+            if !wall_collision {
+                ball.velocity.x = -ball.velocity.x;
+            }
+            ball.wall_collision = true;
+        } else {
+            ball.wall_collision = false;
         }
 
-        if wall_collision {
+        if !wall_collision && ball.wall_collision {
             ev_play_sound.send(PlaySoundEvent(BALL_HITS_WALL.to_string()))
         }
 
-        // paddle collision
+        // paddle collision ------------------------------------------------------------------------
         let mut paddle_collision = false;
         if let Ok((paddle_transform, paddle_sprite)) = paddle_query.get_single_mut() {
             if ball.velocity.y < 0. {
@@ -66,7 +73,7 @@ pub fn ball_collision_system(windows: Res<Windows>,
             }
         }
 
-        // brick collision
+        // brick collision -------------------------------------------------------------------------
         if !wall_collision && !paddle_collision {
             let mut ball_rect = Rectangle::create_from_sprite(&ball_transform, &ball_sprite);
             for (brick_entity, mut brick_sprite, mut brick_transform, mut brick) in bricks_query.iter_mut() {

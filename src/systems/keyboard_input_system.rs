@@ -36,6 +36,8 @@ pub fn keyboard_input_system(keyboard_input: Res<Input<KeyCode>>,
         println!("All bricks have been reset.")
     } else if keyboard_input.just_pressed(KeyCode::F6) {
         game_state.toggle_show_ball_coords();
+    } else if keyboard_input.just_pressed(KeyCode::F7) {
+        game_state.toggle_show_ball_collision_field();
     } else if is_center_ball_hotkey_pressed(&keyboard_input) && game_state.direct_ball_movement {
         ev_writer.send(GameCommandEvent(GameCommand::CenterBall));
     } else if keyboard_input.just_pressed(KeyCode::R) {

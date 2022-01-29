@@ -63,8 +63,8 @@ pub fn ball_movement_system(keyboard_input: Res<Input<KeyCode>>,
     }
 }
 
-fn apply_ball_transform<F>(window: &Window, ball_transform: &mut Transform, transform: F)
-    where F : Fn(&mut f32, &mut f32) {
+fn apply_ball_transform<T>(window: &Window, ball_transform: &mut Transform, transform: T)
+    where T : Fn(&mut f32, &mut f32) {
     let mut x_pos = ball_transform.translation.x;
     let mut y_pos = ball_transform.translation.y;
     transform(&mut x_pos, &mut y_pos);
