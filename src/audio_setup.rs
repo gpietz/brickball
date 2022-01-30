@@ -14,6 +14,8 @@ pub fn audio_setup(mut commands: Commands, asset_server: ResMut<AssetServer>) {
     sources.push(create_audio_source(&asset_server, "impact2", "sounds/sfx_sounds_impact3.wav"));
     sources.push(create_audio_source(&asset_server, "impact3", "sounds/sfx_sounds_impact6.wav"));
     sources.push(create_audio_source(&asset_server, "impact_wall", "sounds/sfx_sounds_impact11.wav"));
+    sources.push(create_audio_source(&asset_server, "music_intro", "music/intro.ogg"));
+    sources.push(create_audio_source(&asset_server, "music_loop", "music/loop.ogg"));
 
     let audio_state = AudioState {
         audio_loaded: false,

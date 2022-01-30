@@ -56,7 +56,7 @@ pub fn ball_collision_system(windows: Res<Windows>,
         }
 
         if !wall_collision && ball.wall_collision {
-            ev_play_sound.send(PlaySoundEvent(BALL_HITS_WALL.to_string()))
+            ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_WALL))
         }
 
         // paddle collision ------------------------------------------------------------------------
@@ -68,7 +68,7 @@ pub fn ball_collision_system(windows: Res<Windows>,
                     ball.velocity.y = -ball.velocity.y;
                     ball.clear_brick_velocity_change();
                     paddle_collision = true;
-                    ev_play_sound.send(PlaySoundEvent(BALL_HITS_PEDDLE.to_string()))
+                    ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_PEDDLE))
                 }
             }
         }
@@ -97,10 +97,10 @@ pub fn ball_collision_system(windows: Res<Windows>,
                     brick.hits_required -= 1;
                     if brick.hits_required <= 0 {
                         commands.entity(brick_entity).despawn();
-                        ev_play_sound.send(PlaySoundEvent(BALL_KILLS_BRICK.to_string()))
+                        ev_play_sound.send(PlaySoundEvent::normal(BALL_KILLS_BRICK))
                     } else {
                         brick_sprite.color = Color::rgb(0.85, 0.85, 0.85);
-                        ev_play_sound.send(PlaySoundEvent(BALL_HITS_BRICK.to_string()))
+                        ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_BRICK))
                     }
                 }
             }

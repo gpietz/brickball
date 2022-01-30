@@ -9,8 +9,6 @@ pub fn setup(asset_server: Res<AssetServer>,
     mut windows: ResMut<Windows>,
     mut game_state: ResMut<GameState>) {
 
-    //let a : Handle<AudioSource> = asset_server.load("assets/sounds/sfx_sounds_impact1.mp3");
-
     // center/position window (using the winapi crate!);
     // the window title will be set here cause it is beeing ignored in the window descriptor.
     let mut window = windows.get_primary_mut().unwrap();
@@ -30,8 +28,6 @@ pub fn setup(asset_server: Res<AssetServer>,
 
 fn center_window(window: &mut Window) {
     let (desktop_width, desktop_height) = get_desktop_dimensions();
-    let window_width = window.width();
-    let window_height = window.height();
     let x_pos = ((desktop_width as f32 / 2f32) - (window.width() / 2f32)) as i32;
     let y_pos = ((desktop_height as f32 / 2f32) - (window.width() / 2f32)) as i32;
     window.set_position(IVec2::new(x_pos, y_pos));

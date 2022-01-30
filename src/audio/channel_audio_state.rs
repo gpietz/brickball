@@ -1,10 +1,12 @@
+use bevy::utils::tracing::{Event, Id, Metadata, Subscriber};
+use bevy::utils::tracing::span::{Attributes, Record};
 use crate::prelude::*;
 
 pub struct ChannelAudioState {
-    stopped: bool,
-    paused: bool,
-    loop_started: bool,
-    volume: f32
+    pub stopped: bool,
+    pub paused: bool,
+    pub loop_started: bool,
+    pub volume: f32
 }
 
 impl Default for ChannelAudioState {
