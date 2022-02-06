@@ -30,81 +30,80 @@ pub fn ball_collision_system(windows: Res<Windows>,
         let ball_diff = WALL_WIDTH + 10.; // Wall width + half of ball radius
 
         // wall collision --------------------------------------------------------------------------
-        let wall_collision = ball.wall_collision;
-        if ball_y > (window_top(&window) - ball_diff) {
-            if !wall_collision {
-                ball.velocity.y = -ball.velocity.y;
-            }
-            ball.wall_collision = true;
-        } else if ball_x > (window_right(&window) - ball_diff) {
-            if !wall_collision {
-                ball.velocity.x = -ball.velocity.x;
-            }
-            ball.wall_collision = true;
-        } else if ball_y < (window_bottom(&window) - ball_diff) {
-            if !wall_collision {
-                ball.velocity.y = -ball.velocity.y;
-            }
-            ball.wall_collision = true;
-        } else if ball_x < (window_left(&window) + ball_diff) {
-            if !wall_collision {
-                ball.velocity.x = -ball.velocity.x;
-            }
-            ball.wall_collision = true;
-        } else {
-            ball.wall_collision = false;
-        }
+        // if ball_y > (window_top(&window) - ball_diff) {
+        //     if !wall_collision {
+        //         ball.velocity.y = -ball.velocity.y;
+        //     }
+        //     ball.wall_collision = true;
+        // } else if ball_x > (window_right(&window) - ball_diff) {
+        //     if !wall_collision {
+        //         ball.velocity.x = -ball.velocity.x;
+        //     }
+        //     ball.wall_collision = true;
+        // } else if ball_y < (window_bottom(&window) - ball_diff) {
+        //     if !wall_collision {
+        //         ball.velocity.y = -ball.velocity.y;
+        //     }
+        //     ball.wall_collision = true;
+        // } else if ball_x < (window_left(&window) + ball_diff) {
+        //     if !wall_collision {
+        //         ball.velocity.x = -ball.velocity.x;
+        //     }
+        //     ball.wall_collision = true;
+        // } else {
+        //     ball.wall_collision = false;
+        // }
 
-        if !wall_collision && ball.wall_collision {
-            ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_WALL))
-        }
+        // if !wall_collision && ball.wall_collision {
+        //     ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_WALL))
+        // }
 
         // paddle collision ------------------------------------------------------------------------
-        let mut paddle_collision = false;
-        if let Ok((paddle_transform, paddle_sprite)) = paddle_query.get_single_mut() {
-            if ball.velocity.y < 0. {
-                if is_paddle_collide(&ball_transform, &ball_sprite,
-                                     &paddle_transform, &paddle_sprite) {
-                    ball.velocity.y = -ball.velocity.y;
-                    ball.clear_brick_velocity_change();
-                    paddle_collision = true;
-                    ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_PEDDLE))
-                }
-            }
-        }
+        // let mut paddle_collision = false;
+        // if let Ok((paddle_transform, paddle_sprite)) = paddle_query.get_single_mut() {
+        //     if ball.velocity.y < 0. {
+        //         if is_paddle_collide(&ball_transform, &ball_sprite,
+        //                              &paddle_transform, &paddle_sprite) {
+        //             ball.velocity.y = -ball.velocity.y;
+        //             ball.clear_brick_velocity_change();
+        //             paddle_collision = true;
+        //             ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_PEDDLE))
+        //         }
+        //     }
+        // }
 
         // brick collision -------------------------------------------------------------------------
-        if !wall_collision && !paddle_collision {
-            let mut ball_rect = Rectangle::create_from_sprite(&ball_transform, &ball_sprite);
-            for (brick_entity, mut brick_sprite, mut brick_transform, mut brick) in bricks_query.iter_mut() {
-                if is_brick_collide(&ball_rect, &brick_transform)
-                    && check_brick_velocity_change(&mut ball, &ball_sprite, &ball_transform) {
-                    ball.update_brick_velocity_change(&ball_transform);
-
-                    let mut ball_rect_2 = Rectangle::create_from(&ball_rect);
-                    // ball_rect_2.transform(ball.velocity.x, 0.);
-                    // if is_brick_collide(&ball_rect_2, &brick_transform) {
-                        //ball.velocity.x = -ball.velocity.x;
-                    // }
-
-                    // ball_rect_2.copy_from(&ball_rect);
-                    // ball_rect_2.transform(0., ball.velocity.y);
-                    // if is_brick_collide(&ball_rect_2, &brick_transform) {
-                        ball.velocity.y = -ball.velocity.y;
-                        println!("New velocity: {}", ball.velocity.y);
-                    //}
-
-                    brick.hits_required -= 1;
-                    if brick.hits_required <= 0 {
-                        commands.entity(brick_entity).despawn();
-                        ev_play_sound.send(PlaySoundEvent::normal(BALL_KILLS_BRICK))
-                    } else {
-                        brick_sprite.color = Color::rgb(0.85, 0.85, 0.85);
-                        ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_BRICK))
-                    }
-                }
-            }
-        }
+        // if !wall_collision {
+        //     let mut ball_rect = Rectangle::create_from_sprite(&ball_transform, &ball_sprite);
+        //     for (brick_entity, mut brick_sprite, mut brick_transform, mut brick) in bricks_query.iter_mut() {
+        //         if is_brick_collide(&ball_rect, &brick_transform)
+        //             && check_brick_velocity_change(&mut ball, &ball_sprite, &ball_transform) {
+        //             ball.update_brick_velocity_change(&ball_transform);
+        //
+        //             let mut ball_rect_2 = Rectangle::create_from(&ball_rect);
+        //             // ball_rect_2.transform(ball.velocity.x, 0.);
+        //             // if is_brick_collide(&ball_rect_2, &brick_transform) {
+        //                 //ball.velocity.x = -ball.velocity.x;
+        //             // }
+        //
+        //             // ball_rect_2.copy_from(&ball_rect);
+        //             // ball_rect_2.transform(0., ball.velocity.y);
+        //             // if is_brick_collide(&ball_rect_2, &brick_transform) {
+        //                 ball.velocity.y = -ball.velocity.y;
+        //                 println!("New velocity: {}", ball.velocity.y);
+        //             //}
+        //
+        //             brick.hits_required -= 1;
+        //             if brick.hits_required <= 0 {
+        //                 commands.entity(brick_entity).despawn();
+        //                 ev_play_sound.send(PlaySoundEvent::normal(BALL_KILLS_BRICK))
+        //             } else {
+        //                 brick_sprite.color = Color::rgb(0.85, 0.85, 0.85);
+        //                 ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_BRICK))
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -122,22 +121,22 @@ fn print_ball_paddle_coordinates(
     println!("X: {} - {} | Y: {} - {}", ball_x, paddle_x, ball_y, paddle_y);
 }
 
-fn is_paddle_collide(ball_transform: &Transform,
-    ball_sprite: &Sprite,
-    paddle_transform: &Transform,
-    paddle_sprite: &Sprite) -> bool {
-    if ball_sprite.custom_size.is_none() || paddle_sprite.custom_size.is_none() {
-        return false;
-    }
-    let ball_size   = ball_sprite.custom_size.unwrap();
-    let paddle_size = paddle_sprite.custom_size.unwrap();
-    let ball_x      = ball_transform.translation.x - (ball_size.x / 2.0);
-    let ball_y      = ball_transform.translation.y;
-    let paddle_x1   = paddle_transform.translation.x - (paddle_size.x / 2.0);
-    let paddle_x2   = paddle_x1 + paddle_size.x;
-    let paddle_y    = paddle_transform.translation.y + paddle_size.y;
-    ball_y <= paddle_y && ball_x >= paddle_x1 && ball_x <= paddle_x2
-}
+// fn is_paddle_collide(ball_transform: &Transform,
+//     ball_sprite: &Sprite,
+//     paddle_transform: &Transform,
+//     paddle_sprite: &Sprite) -> bool {
+//     if ball_sprite.custom_size.is_none() || paddle_sprite.custom_size.is_none() {
+//         return false;
+//     }
+//     let ball_size   = ball_sprite.custom_size.unwrap();
+//     let paddle_size = paddle_sprite.custom_size.unwrap();
+//     let ball_x      = ball_transform.translation.x - (ball_size.x / 2.0);
+//     let ball_y      = ball_transform.translation.y;
+//     let paddle_x1   = paddle_transform.translation.x - (paddle_size.x / 2.0);
+//     let paddle_x2   = paddle_x1 + paddle_size.x;
+//     let paddle_y    = paddle_transform.translation.y + paddle_size.y;
+//     ball_y <= paddle_y && ball_x >= paddle_x1 && ball_x <= paddle_x2
+// }
 
 fn is_brick_collide(ball_rect: &Rectangle, brick_transform: &Transform) -> bool {
     let brick_width  = f32::from(BRICK_SIZE[0]);

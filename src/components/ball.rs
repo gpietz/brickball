@@ -8,7 +8,6 @@ pub struct Ball {
     pub velocity: Vec2,
     pub radius: f32,
     pub brick_velocity_change: Option<Vec2>,
-    pub wall_collision: bool,
 }
 
 impl Ball {
@@ -35,7 +34,6 @@ impl Default for Ball {
             velocity: Vec2::new(5.0, 5.0),
             radius: 20.0,
             brick_velocity_change: Option::None,
-            wall_collision: false
         }
     }
 }
