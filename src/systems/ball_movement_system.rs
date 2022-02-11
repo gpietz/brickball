@@ -9,7 +9,13 @@ const BALL_KILLS_BRICK: &str = "impact3";
 const BALL_HITS_WALL:   &str = "impact1";
 
 static MOVEMENT_PRECISION: f32 = 1.0;
-const PLAY_SOUND_ENABLED: bool = true;
+
+struct CollisionContext<'a> {
+    pub collision_info: Vec<BallCollisionInfo>,
+    pub paddle: (&'a Transform, &'a Sprite),
+    pub walls: Vec<(&'a Transform, &'a Sprite)>,
+    pub bricks: Vec<(Entity, &'a Transform, &'a Sprite, &'a Brick)>,
+}
 
 pub fn ball_movement_system(
     keyboard_input: Res<Input<KeyCode>>,
@@ -31,6 +37,7 @@ pub fn ball_movement_system(
     >,
     mut commands: Commands,
     mut ev_play_sound: EventWriter<PlaySoundEvent>,
+    game_settings: Res<GameSettings>
 ) {
     if game_state.pause && !game_state.direct_ball_movement {
         return;
@@ -85,9 +92,8 @@ pub fn ball_movement_system(
             let mut ball_collision_context =
                 BallCollisionContext::create_for_ball(&ball, &ball_transform);
 
-            let mut collision_context = CollisionsContext {
+            let mut collision_context = CollisionContext {
                 collision_info: Vec::new(),
-                ball_velocity: ball.velocity,
                 paddle: paddle_query.get_single().unwrap(),
                 walls: Vec::from_iter(wall_query.iter()),
                 bricks: Vec::from_iter(bricks_query.iter())
@@ -107,21 +113,21 @@ pub fn ball_movement_system(
                         Collider::Paddle => match info.direction {
                             Collision::Top | Collision::Left | Collision::Right => {
                                 ball.velocity.y = -ball_velocity_y;
-                                play_sound(&mut ev_play_sound, BALL_HITS_PEDDLE);
+                                ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_PEDDLE));
                             }
                             Collision::Bottom => {
-                                play_sound(&mut ev_play_sound, BALL_HITS_PEDDLE);
+                                ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_PEDDLE));
                             }
                         },
 
                         Collider::Wall => match info.direction {
                             Collision::Top | Collision::Bottom => {
                                 ball.velocity.y = -ball_velocity_y;
-                                play_sound(&mut ev_play_sound, BALL_HITS_WALL);
+                                ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_WALL));
                             }
                             Collision::Left | Collision::Right => {
                                 ball.velocity.x = -ball_velocity_x;
-                                play_sound(&mut ev_play_sound, BALL_HITS_WALL);
+                                ev_play_sound.send(PlaySoundEvent::normal(BALL_HITS_WALL));
                             }
                         },
 
@@ -158,21 +164,13 @@ pub fn ball_movement_system(
             if !brick_ids_despawned.contains(&brick_id) {
                 brick_ids_despawned.push(brick_id);
                 commands.entity(brick.0).despawn();
-                play_sound(&mut ev_play_sound, BALL_KILLS_BRICK);
+                ev_play_sound.send(PlaySoundEvent::normal(BALL_KILLS_BRICK));
             }
         } else {
             brick.2.color = Color::rgb(0.85, 0.85, 0.85);
-            play_sound(&mut ev_play_sound, BALL_HITS_BRICK);
+            ev_play_sound.send(PlaySoundEvent::normal(BALL_KILLS_BRICK));
         }
     }
-}
-
-struct CollisionsContext<'a> {
-    pub collision_info: Vec<BallCollisionInfo>,
-    pub ball_velocity: Vec2,
-    pub paddle: (&'a Transform, &'a Sprite),
-    pub walls: Vec<(&'a Transform, &'a Sprite)>,
-    pub bricks: Vec<(Entity, &'a Transform, &'a Sprite, &'a Brick)>,
 }
 
 fn create_float_iterator(start: f32, end: f32) -> FloatIterator {
@@ -186,7 +184,7 @@ fn create_float_iterator(start: f32, end: f32) -> FloatIterator {
 fn apply_ball_transform(
     ball_velocity: &Vec2,
     ball_transform: &mut Transform,
-    mut collision_context: &mut CollisionsContext,
+    collision_context: &mut CollisionContext,
     ball_collision_context: &mut BallCollisionContext,
 ) -> bool {
     let mut no_collision = false;
@@ -196,7 +194,7 @@ fn apply_ball_transform(
         let transform_x = transform.x;
         transform.x = ball_transform.translation.x + f as f32;
         ball_collision_context.update_ball_position(&transform);
-        if !check_collision(&ball_collision_context, &mut collision_context) {
+        if !check_collision(&ball_collision_context, collision_context) {
             break;
         } else {
             transform.x = transform_x;
@@ -209,7 +207,7 @@ fn apply_ball_transform(
         let transform_y = transform.y;
         transform.y = ball_transform.translation.y + f as f32;
         ball_collision_context.update_ball_position(&transform);
-        if !check_collision(&ball_collision_context, &mut collision_context) {
+        if !check_collision(&ball_collision_context, collision_context) {
             break;
         } else {
             transform.y = transform_y;
@@ -226,11 +224,11 @@ fn apply_ball_transform(
 
 /// Checks current ball position for any collisions.
 ///
-/// If the ball collides with the peddle, a wall or a brick the result will be 'true',
-/// otherwise 'false'.
+/// If the ball collides with the paddle, a wall or a brick the result will be __true__,
+/// otherwise __false__.
 fn check_collision(
     ball_collision_context: &BallCollisionContext,
-    collision_context: &mut CollisionsContext,
+    collision_context: &mut CollisionContext,
 ) -> bool {
     // paddle collision check
     let paddle_collision = ball_collision_context
@@ -276,9 +274,6 @@ fn check_collision(
         }
     }
 
-    if collision_brick_count > 0 {
-        println!("Collision brick count: {}", collision_brick_count);
-    }
     collision_brick_count > 0
 }
 
@@ -298,11 +293,4 @@ where
 fn is_ball_in_range(window: &Window, x: f32, y: f32) -> bool {
     let rect = Rectangle::create_from_window(&window);
     rect.is_inside_ref(&x, &y)
-}
-
-//noinspection RsConstantConditionIf
-fn play_sound(mut ev_play_sound: &mut EventWriter<PlaySoundEvent>, sound_name: &str) {
-    if PLAY_SOUND_ENABLED {
-        ev_play_sound.send(PlaySoundEvent::normal(sound_name))
-    }
 }

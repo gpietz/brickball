@@ -3,7 +3,8 @@ use crate::prelude::*;
 
 pub fn keyboard_input_system(keyboard_input: Res<Input<KeyCode>>,
     mut ev_writer: EventWriter<GameCommandEvent>,
-    mut game_state: ResMut<GameState>
+    mut game_state: ResMut<GameState>,
+    mut game_settings: ResMut<GameSettings>
 ) {
     // Releases the ball if it's stuck to the paddle
     if game_state.paddle_owns_ball && keyboard_input.just_pressed(KeyCode::Space) {
@@ -42,6 +43,10 @@ pub fn keyboard_input_system(keyboard_input: Res<Input<KeyCode>>,
         ev_writer.send(GameCommandEvent(GameCommand::CenterBall));
     } else if keyboard_input.just_pressed(KeyCode::R) {
         game_state.paddle_owns_ball = true;
+    } else if keyboard_input.just_pressed(KeyCode::S) && is_control_pressed(&keyboard_input) {
+        game_settings.toggle_sound_enabled();
+    } else if keyboard_input.just_pressed(KeyCode::M) && is_control_pressed(&keyboard_input) {
+        game_settings.toggle_music_enabled();
     }
 }
 
@@ -49,7 +54,7 @@ enum LevelSelection {
     Next, Previous
 }
 
-fn get_level_selection(keyboard_input : &Res<Input<KeyCode>>) -> Option<LevelSelection> {
+fn get_level_selection(keyboard_input: &Res<Input<KeyCode>>) -> Option<LevelSelection> {
     if !keyboard_input.pressed(KeyCode::LShift) && !keyboard_input.pressed(KeyCode::RShift) {
         return None;
     }
@@ -69,4 +74,8 @@ fn get_level_selection(keyboard_input : &Res<Input<KeyCode>>) -> Option<LevelSel
 
 fn is_center_ball_hotkey_pressed(keyboard_input: &Res<Input<KeyCode>>) -> bool {
     is_shift_pressed(keyboard_input) && keyboard_input.just_pressed(KeyCode::C)
+}
+
+fn is_control_pressed(keyboard_input: &Res<Input<KeyCode>>) -> bool {
+    keyboard_input.pressed(KeyCode::LControl) || keyboard_input.pressed(KeyCode::RControl)
 }

@@ -22,6 +22,7 @@ pub fn main_menu_system(
     // Let's start the game;
     // removes the main menu graphics by despawning.
     if keyboard_input.just_pressed(KeyCode::Space) {
+        // TODO Crashed just after start with keypress, needs to be fixed!!!!
         let entity = query_result.unwrap();
         commands.entity(entity).despawn();
         keyboard_input.clear_just_pressed(KeyCode::Space);

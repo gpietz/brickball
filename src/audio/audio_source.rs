@@ -1,3 +1,4 @@
+use bevy_kira_audio::AudioChannel;
 use crate::prelude::*;
 
 pub struct AudioSource {

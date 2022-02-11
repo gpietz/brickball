@@ -17,9 +17,9 @@ pub fn game_object_spawner(
 
 /// Spawn the ball.
 fn spawn_ball(window: &Window, mut commands: &mut Commands) {
-    let y_pos = window_bottom(&window) + WALL_WIDTH + PADDLE_HEIGHT;
     let ball = Ball::default();
-    commands.spawn_bundle(create_sprite_bundle(0.0, y_pos, 100, ball.radius, ball.radius, Color::GREEN))
+    let y_pos = window_bottom(&window) + WALL_WIDTH + PADDLE_HEIGHT - ball.radius;
+    commands.spawn_bundle(create_sprite_bundle(0.0, y_pos, 10, ball.radius, ball.radius, Color::GREEN))
             .insert(Ball::default());
 }
 

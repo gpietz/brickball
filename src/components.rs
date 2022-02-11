@@ -12,6 +12,7 @@ mod main_menu;
 mod paddle;
 mod test_circle;
 mod wall;
+mod game_settings;
 
 pub use crate::components::ball::*;
 pub use crate::components::ball_collision_info::*;
@@ -27,3 +28,4 @@ pub use crate::components::main_menu::*;
 pub use crate::components::paddle::*;
 pub use crate::components::test_circle::*;
 pub use crate::components::wall::*;
+pub use crate::components::game_settings::*;

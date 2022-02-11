@@ -1,7 +1,8 @@
 extern crate core;
+extern crate serde;
+extern crate serde_json;
 
 mod audio;
-mod audio_setup;
 mod components;
 mod events;
 mod game_object_spawner;
@@ -29,7 +30,6 @@ mod prelude {
     pub use bevy::prelude::*;
 }
 
-use crate::audio_setup::*;
 use crate::prelude::*;
 use crate::setup::*;
 use crate::systems::ball_collision_field_system::*;
@@ -38,10 +38,8 @@ use crate::systems::ball_movement_system::*;
 use crate::systems::brick_spawning_system::*;
 use crate::systems::check_audio_loading_system::*;
 use crate::systems::keyboard_input_system::*;
-use crate::systems::main_menu_init_system::*;
 use crate::systems::main_menu_system::*;
 use crate::systems::paddle_movement_system::*;
-use crate::systems::play_audio_system::*;
 use crate::systems::show_ball_coords_system::*;
 use crate::systems::test_circle_system::*;
 use bevy::ecs::schedule::IntoSystemDescriptor;
@@ -55,6 +53,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugin(ShapePlugin)
         .add_plugin(AudioPlugin)
+        .add_plugin(GameAudioPlugin)
         .add_state(AppState::MainMenu)
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.00)))
         .insert_resource(WindowDescriptor {
@@ -67,12 +66,9 @@ fn main() {
         .add_event::<GameCommandEvent>()
         .add_event::<PlaySoundEvent>()
         .add_startup_system(setup.system())
-        .add_startup_system(audio_setup)
         .add_system(check_audio_loading_system)
         .add_system(exit_on_esc_system)
         // main menu stage
-        .add_system_set(SystemSet::on_enter(AppState::MainMenu)
-            .with_system(main_menu_init_system))
         .add_system_set(SystemSet::on_update(AppState::MainMenu)
             .with_system(main_menu_system))
         // game stage
@@ -90,7 +86,6 @@ fn main() {
                 .with_system(keyboard_input_system)
                 .with_system(show_ball_coords_system),
         )
-        .add_system(play_audio_system)
         .run();
 }
 

@@ -82,17 +82,3 @@ impl ExactSizeIterator for FloatIterator {
         self.usize_len()
     }
 }
-
-#[test]
-fn check_float_iterator() {
-    let end = -5.0;
-    let mut fi = FloatIterator::new_with_step(0.0, f64::abs(end), 1.0);
-    for f in fi {
-        println!(">> {}", f);
-    }
-
-    let mut fi = FloatIterator::new_with_step(f64::abs(end), 0.0, 1.0);
-    for f in fi {
-        println!(">>>> {}", f);
-    }
-}
