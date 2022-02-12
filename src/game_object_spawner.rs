@@ -7,26 +7,31 @@ pub const WALL_WIDTH: f32 = 30.0;
 pub fn game_object_spawner(
     windows: Res<Windows>,
     mut commands: Commands,
-    app_state: ResMut<State<AppState>>
+    app_state: ResMut<State<AppState>>,
+    game_assets: Res<GameAssets>,
 ) {
     let window = windows.get_primary().unwrap();
-    spawn_paddle(&window, &mut commands);
+    spawn_paddle(&window, &mut commands, &game_assets);
     spawn_walls(&window, &mut commands);
-    spawn_ball(&window, &mut commands);
+    spawn_ball(&window, &mut commands, &game_assets);
 }
 
 /// Spawn the ball.
-fn spawn_ball(window: &Window, mut commands: &mut Commands) {
+fn spawn_ball(window: &Window, mut commands: &mut Commands, game_assets: &Res<GameAssets>) {
     let ball = Ball::default();
     let y_pos = window_bottom(&window) + WALL_WIDTH + PADDLE_HEIGHT - ball.radius;
-    commands.spawn_bundle(create_sprite_bundle(0.0, y_pos, 10, ball.radius, ball.radius, Color::GREEN))
+    let mut sprite_bundle = create_sprite_bundle(0.0, y_pos, 10, ball.radius, ball.radius, Color::default());
+    sprite_bundle.texture = game_assets.ball_gfx.clone();
+    commands.spawn_bundle(sprite_bundle)
             .insert(Ball::default());
 }
 
 /// Spawn player sprite.
-fn spawn_paddle(window: &Window, mut commands: &mut Commands) {
+fn spawn_paddle(window: &Window, mut commands: &mut Commands, game_assets: &Res<GameAssets>) {
     let y_pos = window_bottom(&window) + WALL_WIDTH;
-    commands.spawn_bundle(create_sprite_bundle(0.0, y_pos, 1, PADDLE_WIDTH, PADDLE_HEIGHT, Color::WHITE))
+    let mut sprite_bundle = create_sprite_bundle(0.0, y_pos, 1, PADDLE_WIDTH, PADDLE_HEIGHT, Color::default());
+    sprite_bundle.texture = game_assets.paddle_gfx.clone();
+    commands.spawn_bundle(sprite_bundle)
             .insert(Paddle::default())
             .insert(Collider::Paddle);
 }

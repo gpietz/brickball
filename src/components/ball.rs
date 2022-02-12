@@ -32,7 +32,7 @@ impl Default for Ball {
     fn default() -> Self {
         Self {
             velocity: Vec2::new(5.0, 5.0),
-            radius: 20.0,
+            radius: 16.0,
             brick_velocity_change: Option::None,
         }
     }
