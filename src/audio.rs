@@ -11,9 +11,9 @@ pub use audio_source::*;
 pub use audio_state::*;
 pub use channel_audio_state::*;
 
-pub struct GameAudioPlugin;
+pub struct AudioPlugin;
 
-impl Plugin for GameAudioPlugin {
+impl Plugin for AudioPlugin {
     fn build(&self, app: &mut App) {
         app.add_startup_system(audio_setup)
            .add_system(play_music_system)

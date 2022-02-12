@@ -13,6 +13,7 @@ mod levels;
 mod rectangle;
 mod setup;
 mod systems;
+mod input;
 
 mod prelude {
     pub const TIME_STEP: f32 = 1. / 60.;
@@ -37,23 +38,24 @@ use crate::systems::ball_collision_system::*;
 use crate::systems::ball_movement_system::*;
 use crate::systems::brick_spawning_system::*;
 use crate::systems::check_audio_loading_system::*;
-use crate::systems::keyboard_input_system::*;
 use crate::systems::main_menu_system::*;
 use crate::systems::paddle_movement_system::*;
 use crate::systems::show_ball_coords_system::*;
 use crate::systems::test_circle_system::*;
+use crate::input::*;
 use bevy::ecs::schedule::IntoSystemDescriptor;
 use bevy::input::system::exit_on_esc_system;
 use bevy::window::WindowResized;
-use bevy_kira_audio::AudioPlugin;
-use bevy_prototype_lyon::plugin::ShapePlugin;
+use bevy_prototype_lyon::plugin::ShapePlugin as BevyShapePlugin;
+use bevy_kira_audio::AudioPlugin as BevyAudioPlugin;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(ShapePlugin)
+        .add_plugin(BevyShapePlugin)
+        .add_plugin(BevyAudioPlugin)
         .add_plugin(AudioPlugin)
-        .add_plugin(GameAudioPlugin)
+        .add_plugin(InputPlugin)
         .add_state(AppState::MainMenu)
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.00)))
         .insert_resource(WindowDescriptor {
@@ -66,7 +68,7 @@ fn main() {
         .add_event::<GameCommandEvent>()
         .add_event::<PlaySoundEvent>()
         .add_startup_system(setup.system())
-        .add_system(check_audio_loading_system)
+        //.add_system(check_audio_loading_system)
         .add_system(exit_on_esc_system)
         // main menu stage
         .add_system_set(SystemSet::on_update(AppState::MainMenu)
@@ -83,7 +85,6 @@ fn main() {
                     .chain(ball_collision_field_system),
                 )
                 .with_system(test_circle_system)
-                .with_system(keyboard_input_system)
                 .with_system(show_ball_coords_system),
         )
         .run();
