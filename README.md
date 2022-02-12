@@ -23,11 +23,11 @@ Now I added extended keyboard control over the elements. So you can use the foll
 | Shift & - / + | Activates next or previous level.                                    |
 |     Shift & C | Centers the ball on the field (only when ball control is activated). |
 |             R | Resets the ball; locks it again on the paddle.                       |
-|      Strg + S | Enable or disable sound.                                             |
-|      Strg + M | Enable or disable music replay.                                      |
+|      Ctrl + S | Enable or disable sound.                                             |
+|      Ctrl + M | Enable or disable music replay.                                      |
 |           Esc | Exits the game.                                                      |
 
-## Screenshot
+#@thr# Screenshot
 <p>
   <img src="https://github.com/gpietz/brickball/blob/master/docs/screenshots/brickball220111-01.png" 
        alt="Project Screenshot" />
