@@ -27,13 +27,13 @@ Now I added extended keyboard control over the elements. So you can use the foll
 |      Ctrl + M | Enable or disable music replay.                                      |
 |           Esc | Exits the game.                                                      |
 
-#@thr# Screenshot
+## Screenshot
 <p>
   <img src="https://github.com/gpietz/brickball/blob/master/docs/screenshots/brickball220111-01.png" 
        alt="Project Screenshot" />
 </p>
 
-# Credits 
+## Credits 
 
 * Sound Effects - <a href="https://juhanijunkala.com/">Juhani Junkala</a>  
   <a href="https://opengameart.org/content/512-sound-effects-8-bit-style">512 Sound Effects (8-bit style)</a>
