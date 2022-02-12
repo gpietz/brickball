@@ -1,7 +1,7 @@
 # Brickball
 A breakball variant to get me more into the Bevy framework.
 
-This is a learning project to get more aknowledge with the [bevy game engine](https://bevyengine.org/). 
+This is a learning project to get more experience with the [bevy game engine](https://bevyengine.org/). 
 It is neither feature complete or playbable until now.
 
 I started by display and moving the player paddel. After that I added the ball and walls. 
@@ -23,6 +23,8 @@ Now I added extended keyboard control over the elements. So you can use the foll
 | Shift & - / + | Activates next or previous level.                                    |
 |     Shift & C | Centers the ball on the field (only when ball control is activated). |
 |             R | Resets the ball; locks it again on the paddle.                       |
+|      Strg + S | Enable or disable sound.                                             |
+|      Strg + M | Enable or disable music replay.                                      |
 |           Esc | Exits the game.                                                      |
 
 ## Screenshot
