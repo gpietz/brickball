@@ -45,26 +45,32 @@ use crate::systems::test_circle_system::*;
 use crate::input::*;
 use bevy::ecs::schedule::IntoSystemDescriptor;
 use bevy::input::system::exit_on_esc_system;
-use bevy::window::WindowResized;
+use bevy::window::{WindowPlugin, WindowResized};
 use bevy_prototype_lyon::plugin::ShapePlugin as BevyShapePlugin;
 use bevy_kira_audio::AudioPlugin as BevyAudioPlugin;
 
+const WINDOW_TITLE : &str = "Brickball (Bevy Test)";
+
 fn main() {
     App::new()
+        // it's important to add the WindowDescriptor before adding the DefaultPlugins,
+        // otherwise the window settings will be ignored!
+        .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.00)))
+        .insert_resource(WindowDescriptor {
+            width: 1280.0,
+            height: 900.0,
+            title: WINDOW_TITLE.to_string(),
+            resizable: false,
+            ..Default::default()
+        })
+        .insert_resource(GameState::default())
+        .insert_resource(Levels::default())
         .add_plugins(DefaultPlugins)
         .add_plugin(BevyShapePlugin)
         .add_plugin(BevyAudioPlugin)
         .add_plugin(AudioPlugin)
         .add_plugin(InputPlugin)
         .add_state(AppState::MainMenu)
-        .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.00)))
-        .insert_resource(WindowDescriptor {
-            width: 1024.0,
-            height: 768.0,
-            ..Default::default()
-        })
-        .insert_resource(GameState::default())
-        .insert_resource(Levels::default())
         .add_event::<GameCommandEvent>()
         .add_event::<PlaySoundEvent>()
         .add_startup_system(setup.system())
