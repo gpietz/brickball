@@ -17,12 +17,9 @@ pub fn main_menu_system(
             ..Default::default()
         })
         .insert(MainMenu);
-    }
-
-    // Let's start the game;
-    // removes the main menu graphics by despawning.
-    if keyboard_input.just_pressed(KeyCode::Space) {
-        // TODO Crashed just after start with keypress, needs to be fixed!!!!
+    } else if keyboard_input.just_pressed(KeyCode::Space) {
+        // Let's start the game;
+        // removes the main menu graphics by despawning.
         let entity = query_result.unwrap();
         commands.entity(entity).despawn();
         keyboard_input.clear_just_pressed(KeyCode::Space);

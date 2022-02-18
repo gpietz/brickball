@@ -7,7 +7,6 @@ use bevy_kira_audio::{Audio, AudioChannel};
 const UNKNOWN_AUDIO_CHANNEL : &str = "Unknown audio channel!";
 
 pub struct AudioState {
-    audio_loaded: bool,
     sources: Vec<AudioSource>,
     channels: HashMap<AudioChannel, ChannelAudioState>
 }
@@ -15,7 +14,6 @@ pub struct AudioState {
 impl Default for AudioState {
     fn default() -> Self {
         Self {
-            audio_loaded: false,
             sources: Vec::new(),
             channels: HashMap::new(),
         }
@@ -86,5 +84,10 @@ impl AudioState {
 
     pub fn get_audio_source(&self, name: &str) -> Option<&AudioSource> {
         self.sources.iter().find(|a| a.name == name)
+    }
+
+    /** Returns a flag indicating whether all audio sources have been loaded. */
+    pub fn all_loaded(&self) -> bool {
+        self.sources.iter().filter(|&s| !s.loaded).count() == 0
     }
 }

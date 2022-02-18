@@ -34,10 +34,8 @@ mod prelude {
 use crate::prelude::*;
 use crate::setup::*;
 use crate::systems::ball_collision_field_system::*;
-use crate::systems::ball_collision_system::*;
 use crate::systems::ball_movement_system::*;
 use crate::systems::brick_spawning_system::*;
-use crate::systems::check_audio_loading_system::*;
 use crate::systems::main_menu_system::*;
 use crate::systems::paddle_movement_system::*;
 use crate::systems::show_ball_coords_system::*;
@@ -45,7 +43,7 @@ use crate::systems::test_circle_system::*;
 use crate::input::*;
 use bevy::ecs::schedule::IntoSystemDescriptor;
 use bevy::input::system::exit_on_esc_system;
-use bevy::window::{WindowPlugin, WindowResized};
+use bevy::window::WindowResized;
 use bevy_prototype_lyon::plugin::ShapePlugin as BevyShapePlugin;
 use bevy_kira_audio::AudioPlugin as BevyAudioPlugin;
 
@@ -87,7 +85,6 @@ fn main() {
                 .with_system(brick_spawning_system)
                 .with_system(paddle_movement_system)
                 .with_system(ball_movement_system
-                    .chain(ball_collision_system)
                     .chain(ball_collision_field_system),
                 )
                 .with_system(test_circle_system)

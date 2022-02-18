@@ -7,6 +7,7 @@ pub const GAMESETTINGS_FILENAME: &str = "brickball.json";
 pub struct GameSettings {
     pub sound_enabled: bool,
     pub music_enabled: bool,
+    pub mouse_enabled: bool,
 }
 
 impl Default for GameSettings {
@@ -14,6 +15,7 @@ impl Default for GameSettings {
         Self {
             sound_enabled: true,
             music_enabled: true,
+            mouse_enabled: false
         }
     }
 }
