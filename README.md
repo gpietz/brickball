@@ -47,6 +47,15 @@ Now I added extended keyboard control over the elements. So you can use the foll
 
 ## Project update and notes
 
+#### _2021-02-19_
+The project is progressing more slowly than was actually hoped. Last week I had no time to take care of the further 
+development. Another problem is that I constantly have new ideas and from the original goal of a learning project the 
+whole thing in my mind is developing more and more into a AAA title.
+
+After I have reworked the collision detection last, now rather smaller extensions and improvements have been added. 
+The FPS display I wanted to put in the window title, but had to realize that this has a negative impact on the 
+performance. So changes to the window should not be done often.
+
 #### _2021-01-29_
 I've revised the main game routine. Now it's using <a href="https://bevy-cheatbook.github.io/programming/states.html">
 bevy's states</a> which results into more options for the runtime "flow".<br/>  
