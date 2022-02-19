@@ -25,6 +25,7 @@ Now I added extended keyboard control over the elements. So you can use the foll
 |             R | Resets the ball; locks it again on the paddle.                       |
 |      Ctrl + S | Enable or disable sound.                                             |
 |      Ctrl + M | Enable or disable music replay.                                      |
+|      Ctrl + F | Enable or disable fps display.                                       |
 |           Esc | Exits the game.                                                      |
 
 ## Screenshot
