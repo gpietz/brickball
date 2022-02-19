@@ -8,6 +8,7 @@ pub struct GameSettings {
     pub sound_enabled: bool,
     pub music_enabled: bool,
     pub mouse_enabled: bool,
+    pub fps_display_enabled: bool,
 }
 
 impl Default for GameSettings {
@@ -15,7 +16,8 @@ impl Default for GameSettings {
         Self {
             sound_enabled: true,
             music_enabled: true,
-            mouse_enabled: false
+            mouse_enabled: false,
+            fps_display_enabled: false,
         }
     }
 }
@@ -23,22 +25,33 @@ impl Default for GameSettings {
 impl GameSettings {
     pub fn toggle_sound_enabled(&mut self) {
         self.sound_enabled = !self.sound_enabled;
-        if self.sound_enabled {
-            println!("Sounds enabled.");
-        } else {
-            println!("Sounds disabled.");
-        }
         self.save();
+        println!("{}", if self.sound_enabled {
+            "Sounds enabled."
+        } else {
+            "Sounds disabled."
+        });
+
     }
 
     pub fn toggle_music_enabled(&mut self) {
         self.music_enabled = !self.music_enabled;
-        if self.music_enabled {
-            println!("Music playback enabled.");
-        } else {
-            println!("Music playback disabled.");
-        }
         self.save();
+        println!("{}", if self.music_enabled {
+            "Music playback enabled."
+        } else {
+            "Music playback disabled."
+        });
+    }
+
+    pub fn toggle_fps_display_enabled(&mut self) {
+        self.fps_display_enabled = !self.fps_display_enabled;
+        self.save();
+        println!("{}", if self.fps_display_enabled {
+            "FPS display enabled."
+        } else {
+            "FPS display disabled."
+        });
     }
 
     pub fn save(&self) -> bool {

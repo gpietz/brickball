@@ -7,7 +7,6 @@ pub const PADDLE_GFX: &str = "graphics/paddle01.png";
 // Fonts
 pub const DEBUG_FONT: &str = "fonts/FiraMono-Medium.ttf";
 
-
 #[derive(Component)]
 pub struct GameAssets {
     pub main_menu_gfx: Handle<Image>,

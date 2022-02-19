@@ -67,11 +67,16 @@ fn keyboard_input(
         _ => {}
     }
 
+    // ---------------------------------------------------------------------------------------------
+    // Control modifier pressed
+    // ---------------------------------------------------------------------------------------------
     if KeyboardHelpers::is_control_pressed(&keyboard_input) {
         if keyboard_input.just_pressed(KeyCode::S)  {
             game_settings.toggle_sound_enabled();
         } else if keyboard_input.just_pressed(KeyCode::M) {
             game_settings.toggle_music_enabled();
+        } else if keyboard_input.just_pressed(KeyCode::F) {
+            game_settings.toggle_fps_display_enabled();
         }
     }
 }

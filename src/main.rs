@@ -14,6 +14,8 @@ mod rectangle;
 mod setup;
 mod systems;
 mod input;
+mod plugins;
+mod text_factory;
 
 mod prelude {
     pub const TIME_STEP: f32 = 1. / 60.;
@@ -28,6 +30,7 @@ mod prelude {
     pub use crate::level_data::*;
     pub use crate::levels::*;
     pub use crate::rectangle::*;
+    pub use crate::text_factory::*;
     pub use bevy::prelude::*;
 }
 
@@ -41,13 +44,15 @@ use crate::systems::paddle_movement_system::*;
 use crate::systems::show_ball_coords_system::*;
 use crate::systems::test_circle_system::*;
 use crate::input::*;
+use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::ecs::schedule::IntoSystemDescriptor;
 use bevy::input::system::exit_on_esc_system;
 use bevy::window::WindowResized;
 use bevy_prototype_lyon::plugin::ShapePlugin as BevyShapePlugin;
 use bevy_kira_audio::AudioPlugin as BevyAudioPlugin;
+use crate::plugins::FpsDisplayPlugin;
 
-const WINDOW_TITLE : &str = "Brickball (Bevy Test)";
+pub const WINDOW_TITLE : &str = "Brickball (Bevy Test)";
 
 fn main() {
     App::new()
@@ -64,10 +69,12 @@ fn main() {
         .insert_resource(GameState::default())
         .insert_resource(Levels::default())
         .add_plugins(DefaultPlugins)
+        .add_plugin(FrameTimeDiagnosticsPlugin::default())
         .add_plugin(BevyShapePlugin)
         .add_plugin(BevyAudioPlugin)
         .add_plugin(AudioPlugin)
         .add_plugin(InputPlugin)
+        .add_plugin(FpsDisplayPlugin)
         .add_state(AppState::MainMenu)
         .add_event::<GameCommandEvent>()
         .add_event::<PlaySoundEvent>()
@@ -90,6 +97,7 @@ fn main() {
                 .with_system(test_circle_system)
                 .with_system(show_ball_coords_system),
         )
+
         .run();
 }
 
