@@ -5,7 +5,8 @@ use crate::prelude::*;
 pub enum AppState {
     IntroScreen,
     MainMenu,
-    Game
+    Game,
+    GameMenu
 }
 
 pub struct GameState {

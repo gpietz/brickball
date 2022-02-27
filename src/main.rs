@@ -47,6 +47,7 @@ use crate::input::*;
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::ecs::schedule::IntoSystemDescriptor;
 use bevy::input::system::exit_on_esc_system;
+use bevy::ui::UiPlugin;
 use bevy::window::WindowResized;
 use bevy_prototype_lyon::plugin::ShapePlugin as BevyShapePlugin;
 use bevy_kira_audio::AudioPlugin as BevyAudioPlugin;
@@ -70,6 +71,7 @@ fn main() {
         .insert_resource(Levels::default())
         .add_plugins(DefaultPlugins)
         .add_plugin(FrameTimeDiagnosticsPlugin::default())
+        .add_plugin(UiPlugin)
         .add_plugin(BevyShapePlugin)
         .add_plugin(BevyAudioPlugin)
         .add_plugin(AudioPlugin)
