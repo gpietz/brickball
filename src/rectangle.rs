@@ -1,8 +1,9 @@
 use crate::prelude::*;
+use winapi::um::wingdi::Rectangle;
 
 pub struct Rectangle {
     pub upper_left: [f32; 2],
-    pub lower_right: [f32; 2]
+    pub lower_right: [f32; 2],
 }
 
 impl Default for Rectangle {
@@ -18,14 +19,14 @@ impl Rectangle {
     pub fn create_from_xy(x: f32, y: f32, width: f32, height: f32) -> Self {
         Self {
             upper_left: [x, y],
-            lower_right: [x + width, y + height]
+            lower_right: [x + width, y + height],
         }
     }
 
     pub fn create_from(rect: &Rectangle) -> Self {
         Self {
             upper_left: [rect.upper_left[0], rect.upper_left[1]],
-            lower_right: [rect.lower_right[0], rect.lower_right[1]]
+            lower_right: [rect.lower_right[0], rect.lower_right[1]],
         }
     }
 
@@ -36,7 +37,7 @@ impl Rectangle {
         let y2 = transform.translation.y - (height / 2.0);
         Self {
             upper_left: [x1, y1],
-            lower_right: [x2, y2]
+            lower_right: [x2, y2],
         }
     }
 
@@ -51,14 +52,14 @@ impl Rectangle {
         let y2 = transform.translation.y - (size.x / 2.0);
         Self {
             upper_left: [x1, y1],
-            lower_right: [x2, y2]
+            lower_right: [x2, y2],
         }
     }
 
     pub fn create_from_window(window: &Window) -> Self {
         Self {
             upper_left: [window_left(&window), window_top(&window)],
-            lower_right: [window_right(&window), window_bottom(&window)]
+            lower_right: [window_right(&window), window_bottom(&window)],
         }
     }
 
@@ -70,19 +71,15 @@ impl Rectangle {
     }
 
     pub fn is_inside(&self, point: Vec2) -> bool {
-        self.upper_left[1] >= point.y
-            && self.lower_right[1] <= point.y
-            && self.upper_left[0] <= point.x
-            && self.lower_right[0] >= point.x
+        Self::is_between(point.y, self.upper_left[1], self.lower_right[1])
+            && Self::is_between(point.x, self.upper_left[0], self.lower_right[0])
     }
 
     pub fn is_inside_ref(&self, x: &f32, y: &f32) -> bool {
-        let x_pos = (*x);
-        let y_pos = (*y);
-        self.upper_left[1] >= y_pos
-            && self.lower_right[1] <= y_pos
-            && self.upper_left[0] <= x_pos
-            && self.lower_right[0] >= x_pos
+        let x_pos = *x;
+        let y_pos = *y;
+        Self::is_between(y_pos, self.upper_left[1], self.lower_right[1])
+            && Self::is_between(x_pos, self.upper_left[0], self.lower_right[0])
     }
 
     pub fn transform(&mut self, x: f32, y: f32) {
@@ -100,8 +97,13 @@ impl Rectangle {
     }
 
     pub fn print_values(&self) {
-        println!("Rectangle -> upper_left: {},{}  lower_right: {},{}",
-            self.upper_left[0], self.upper_left[1],
-            self.lower_right[0], self.lower_right[1]);
+        println!(
+            "Rectangle -> upper_left: {},{}  lower_right: {},{}",
+            self.upper_left[0], self.upper_left[1], self.lower_right[0], self.lower_right[1]
+        );
+    }
+
+    fn is_between(value: f32, from: f32, to: f32) -> bool {
+        value >= from && value <= to
     }
 }

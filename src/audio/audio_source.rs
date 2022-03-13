@@ -1,8 +1,8 @@
-use bevy_kira_audio::AudioChannel;
 use crate::prelude::*;
+use bevy_kira_audio::AudioSource as BevyAudioSource;
 
 pub struct AudioSource {
     pub name: String,
-    pub handle: Handle<bevy_kira_audio::AudioSource>,
+    pub handle: Handle<BevyAudioSource>,
     pub loaded: bool
 }

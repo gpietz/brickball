@@ -16,6 +16,7 @@ mod systems;
 mod input;
 mod plugins;
 mod text_factory;
+mod sprite_bundle_factory;
 
 mod prelude {
     pub const TIME_STEP: f32 = 1. / 60.;
