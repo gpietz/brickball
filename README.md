@@ -36,8 +36,8 @@ Now I added extended keyboard control over the elements. So you can use the foll
 
 ## Credits 
 
-* Sound Effects - <a href="https://juhanijunkala.com/">Juhani Junkala</a>  
-  <a href="https://opengameart.org/content/512-sound-effects-8-bit-style">512 Sound Effects (8-bit style)</a>
+* Sound Effects - [Juhani Junkala](https://juhanijunkala.com/)  
+  [512 Sound Effects (8-bit style)](https://opengameart.org/content/512-sound-effects-8-bit-style)
 
 ## Planned changes (not yet done): 
 * Enable fullscreen rendering
@@ -46,6 +46,19 @@ Now I added extended keyboard control over the elements. So you can use the foll
 * Add title screen with menu
 
 ## Project update and notes
+
+#### _2022-03-13_ Project Recap  
+I haven't worked on the project for the last two weeks because, to be honest, I couldn't motivate myself. 
+At the moment I see too many problems, many things take too long and the game engine seems more and more unsuitable.
+
+I wanted to add the textures now but what I miss is the possibility to set properties for the texture repetition. 
+This [discussion](https://github.com/bevyengine/bevy/issues/399) also deals with the problem, but it doesn't offer a good solution.
+
+The realisation of a game menu also seemed too complex to me. The game engine certainly has many advantages and has 
+many features in the 3D area, but for what I want to realise with it, it seems too complex to me.
+
+At the moment I'm thinking about porting the game or starting something new, but in any case I'll use a simpler 
+graphics engine.
 
 #### _2022-02-19_
 The project is progressing more slowly than was actually hoped. Last week I had no time to take care of the further 
